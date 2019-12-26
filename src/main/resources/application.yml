@@ -1,0 +1,6 @@
+spring:
+  datasource:
+    url: jdbc:h2:~/data/food-rocket
+  jpa:
+    hibernate:
+      ddl-auto: update
