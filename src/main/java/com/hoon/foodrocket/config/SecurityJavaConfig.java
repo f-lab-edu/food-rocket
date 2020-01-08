@@ -1,4 +1,4 @@
-package com.hoon.foodrocket;
+package com.hoon.foodrocket.config;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

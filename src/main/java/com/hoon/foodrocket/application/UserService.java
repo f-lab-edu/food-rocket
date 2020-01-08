@@ -1,31 +1,40 @@
 package com.hoon.foodrocket.application;
 
 import com.hoon.foodrocket.domain.User;
-import com.hoon.foodrocket.domain.UserRepository;
+import com.hoon.foodrocket.mapper.UserMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
-
-import javax.transaction.Transactional;
-import java.util.Optional;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service
-@Transactional
+@Transactional  // 메소드나 클래스에 트랜잭션 속성을 설명
 public class UserService {
 
-    UserRepository userRepository;
+    UserMapper userMapper;
 
     PasswordEncoder passwordEncoder;
 
     @Autowired
-    public UserService(UserRepository userRepository, PasswordEncoder passwordEncoder) {
-        this.userRepository = userRepository;
+    public UserService(UserMapper userMapper, PasswordEncoder passwordEncoder) {
+        this.userMapper = userMapper;
         this.passwordEncoder = passwordEncoder;
     }
 
-    public User registerUser(String email, String name, String password) {
-        Optional<User> existed = userRepository.findByEmail(email);
-        if (existed.isPresent()) {
+    public User getUser(String email) {
+        User existed = userMapper.getUser(email);
+
+        if (existed == null) {
+            throw new EmailNotExistedException(email);
+        }
+
+        return existed;
+    }
+
+    public void registerUser(String email, String name, String password) {
+        User existed = userMapper.getUser(email);
+
+        if (existed != null) {
             throw new EmailExistedException(email);
         }
 
@@ -37,6 +46,7 @@ public class UserService {
                 .password(encodedPassword)
                 .build();
 
-        return userRepository.save(user);
+        userMapper.registerUser(user);
     }
+
 }

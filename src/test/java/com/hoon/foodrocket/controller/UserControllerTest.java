@@ -1,4 +1,4 @@
-package com.hoon.foodrocket.interfaces;
+package com.hoon.foodrocket.controller;
 
 import com.hoon.foodrocket.application.UserService;
 import com.hoon.foodrocket.domain.User;
@@ -16,7 +16,6 @@ import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.verify;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.header;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @RunWith(SpringRunner.class)

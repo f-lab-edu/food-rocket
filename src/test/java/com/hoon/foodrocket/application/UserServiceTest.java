@@ -1,7 +1,6 @@
 package com.hoon.foodrocket.application;
 
 import com.hoon.foodrocket.domain.User;
-import com.hoon.foodrocket.domain.UserRepository;
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mock;
