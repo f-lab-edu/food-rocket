@@ -13,12 +13,12 @@ public class UserController {
     @Autowired
     private UserService userService;
 
-    @GetMapping("/user")
+    @GetMapping("/users")
     public User detail(@RequestParam("email") String email) {
         return userService.getUser(email);
     }
 
-    @PostMapping("/user")
+    @PostMapping("/users")
     public ResponseEntity<?> create(@RequestBody User resource) {
         String email = resource.getEmail();
         String name = resource.getName();
@@ -26,7 +26,7 @@ public class UserController {
 
         userService.registerUser(email, name, password);
 
-        return ResponseEntity.status(HttpStatus.CREATED).build();
+        return ResponseEntity.status(HttpStatus.OK).build();
     }
 
 }
