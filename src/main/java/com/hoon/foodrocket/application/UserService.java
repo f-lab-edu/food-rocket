@@ -7,13 +7,13 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-@Service
 /*
+  Transactional
   기존에 try-catch 구문을 통해 커밋과 롤백을 직접 처리해줬어야 했다.
   이를 @Transactional 어노테이션을 통해 자동으로 관리해줄 수 있으며
   if, try, catch 와 같이 중복된 코드가 줄어들어 가독성을 높일 수 있다.
  */
-@Transactional
+@Service
 public class UserService {
 
     UserMapper userMapper;
@@ -26,21 +26,23 @@ public class UserService {
         this.passwordEncoder = passwordEncoder;
     }
 
-    public User getUser(String email) {
-        User user = userMapper.getUser(email);
+    @Transactional
+    public User getUser(Long id) {
+        User user = userMapper.getUserWithId(id);
 
         if (user == null) {
-            throw new IllegalStateException("Email is not existed: " + email);
+            throw new IllegalStateException("User is not existed");
         }
 
         return user;
     }
 
+    @Transactional
     public void registerUser(String email, String name, String password) {
-        User user = userMapper.getUser(email);
+        User user = userMapper.getUserWithEmail(email);
 
         if (user != null) {
-            throw new IllegalStateException("Email is already existed: " + email);
+            throw new IllegalStateException("User is already registered");
         }
 
         String encodedPassword = passwordEncoder.encode(password);
@@ -53,5 +55,4 @@ public class UserService {
 
         userMapper.registerUser(builder);
     }
-    
 }

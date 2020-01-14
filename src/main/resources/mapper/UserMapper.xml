@@ -5,9 +5,16 @@
 
 <mapper namespace="com.hoon.foodrocket.mapper.UserMapper">
 
-    <!-- 유저 상세정보 -->
-    <select id="getUser" parameterType="String" resultType="com.hoon.foodrocket.domain.User">
-        select email, name
+    <!-- 유저 조회(id) -->
+    <select id="getUserWithId" parameterType="Long" resultType="com.hoon.foodrocket.domain.User">
+        select email, name, password
+        from user
+        where id = #{id}
+    </select>
+
+    <!-- 유저 조회(email) -->
+    <select id="getUserWithEmail" parameterType="String" resultType="com.hoon.foodrocket.domain.User">
+        select email, name, password
         from user
         where email = #{email}
     </select>

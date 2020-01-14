@@ -13,9 +13,9 @@ public class UserController {
     @Autowired
     private UserService userService;
 
-    @GetMapping("/users")
-    public User detail(@RequestParam("email") String email) {
-        return userService.getUser(email);
+    @GetMapping("/users/{id}")
+    public User detail(@PathVariable("id") Long id) {
+        return userService.getUser(id);
     }
 
     @PostMapping("/users")
@@ -26,7 +26,7 @@ public class UserController {
 
         userService.registerUser(email, name, password);
 
-        return ResponseEntity.status(HttpStatus.OK).build();
+        return ResponseEntity.status(HttpStatus.CREATED).build();
     }
 
 }
