@@ -3,7 +3,6 @@ package com.hoon.foodrocket.application;
 import com.hoon.foodrocket.domain.User;
 import com.hoon.foodrocket.mapper.UserMapper;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -15,16 +14,8 @@ import org.springframework.transaction.annotation.Transactional;
  */
 @Service
 public class UserService {
-
-    UserMapper userMapper;
-
-    PasswordEncoder passwordEncoder;
-
     @Autowired
-    public UserService(UserMapper userMapper, PasswordEncoder passwordEncoder) {
-        this.userMapper = userMapper;
-        this.passwordEncoder = passwordEncoder;
-    }
+    UserMapper userMapper;
 
     @Transactional
     public User getUser(Long id) {
@@ -45,14 +36,26 @@ public class UserService {
             throw new IllegalStateException("User is already registered");
         }
 
-        String encodedPassword = passwordEncoder.encode(password);
-
         User builder = User.builder()
                 .email(email)
                 .name(name)
-                .password(encodedPassword)
+                .password(password)
                 .build();
 
         userMapper.registerUser(builder);
+    }
+
+    public User login(String email, String password) {
+        User user = userMapper.getUserWithEmail(email);
+
+        if (user == null) {
+            throw new IllegalStateException("User is not existed");
+        }
+
+        if (!password.equals(user.getPassword())) {
+            throw new IllegalStateException("Password is wrong");
+        }
+
+        return user;
     }
 }
