@@ -45,6 +45,7 @@ public class UserService {
         userMapper.registerUser(builder);
     }
 
+    @Transactional
     public User login(String email, String password) {
         User user = userMapper.getUserWithEmail(email);
 
@@ -53,7 +54,7 @@ public class UserService {
         }
 
         if (!password.equals(user.getPassword())) {
-            throw new IllegalStateException("Password is wrong");
+            throw new IllegalArgumentException("Password is wrong");
         }
 
         return user;
