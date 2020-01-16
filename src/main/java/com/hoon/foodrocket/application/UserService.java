@@ -53,7 +53,7 @@ public class UserService {
             throw new IllegalStateException("User is not existed");
         }
 
-        if (!password.equals(user.getPassword())) {
+        if (!user.matchPassword(password)) {
             throw new IllegalArgumentException("Password is wrong");
         }
 
