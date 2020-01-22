@@ -20,4 +20,15 @@ public class Restaurant {
 
     @NotEmpty
     private String address;
+
+    @NotEmpty
+    private String ownerEmail;
+
+    public boolean matchOwnerEmail(String loginUserEmail) {
+        if (loginUserEmail == null) {
+            return false;
+        }
+
+        return this.ownerEmail.equals(loginUserEmail);
+    }
 }

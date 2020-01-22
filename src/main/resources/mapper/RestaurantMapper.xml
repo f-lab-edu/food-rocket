@@ -7,13 +7,13 @@
 
     <!-- 가게 목록 -->
     <select id="findAll" resultType="com.hoon.foodrocket.domain.Restaurant">
-        select id, name, address
+        select id, name, address, owner_email ownerEmail
         from restaurant
     </select>
 
     <!-- 가게 조회 -->
     <select id="getRestaurant" parameterType="Long" resultType="com.hoon.foodrocket.domain.Restaurant">
-        select id, name, address
+        select id, name, address, owner_email ownerEmail
         from restaurant
         where id = #{id}
     </select>
@@ -22,11 +22,13 @@
     <insert id="addRestaurant" parameterType="com.hoon.foodrocket.domain.Restaurant">
         insert into restaurant (
             name,
-            address
+            address,
+            owner_email
         )
         values (
             #{name},
-            #{address}
+            #{address},
+            #{ownerEmail}
         )
     </insert>
 

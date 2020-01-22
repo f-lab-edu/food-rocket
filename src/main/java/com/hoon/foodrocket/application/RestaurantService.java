@@ -18,7 +18,7 @@ public class RestaurantService {
         List<Restaurant> restaurants = restaurantMapper.findAll();
 
         if (restaurants == null) {
-            throw new IllegalStateException("Restaurant is not found");
+            throw new IllegalStateException("가게 정보가 없습니다.");
         }
 
         return restaurants;
@@ -29,28 +29,33 @@ public class RestaurantService {
         Restaurant restaurant = restaurantMapper.getRestaurant(id);
 
         if (restaurant == null) {
-            throw new IllegalStateException("Restaurant is not found");
+            throw new IllegalStateException("가게 정보가 없습니다.");
         }
 
         return restaurant;
     }
 
     @Transactional
-    public void addRestaurant(String name, String address) {
+    public void addRestaurant(String name, String address, String ownerEmail) {
         Restaurant restaurant = Restaurant.builder()
                 .name(name)
                 .address(address)
+                .ownerEmail(ownerEmail)
                 .build();
 
         restaurantMapper.addRestaurant(restaurant);
     }
 
     @Transactional
-    public void updateRestaurant(Long id, String name, String address) {
+    public void updateRestaurant(Long id, String name, String address, String loginUserEmail) {
         Restaurant restaurant = restaurantMapper.getRestaurant(id);
 
         if (restaurant == null) {
-            throw new IllegalStateException("Restaurant is not found");
+            throw new IllegalStateException("가게 정보가 없습니다.");
+        }
+
+        if (!restaurant.matchOwnerEmail(loginUserEmail)) {
+            throw new IllegalStateException("본인 가게 정보만 수정할 수 있습니다.");
         }
 
         Restaurant builder = Restaurant.builder()
@@ -66,7 +71,7 @@ public class RestaurantService {
         Restaurant restaurant = restaurantMapper.getRestaurant(id);
 
         if (restaurant == null) {
-            throw new IllegalStateException("Restaurant is not found");
+            throw new IllegalStateException("가게 정보가 없습니다.");
         }
 
         restaurantMapper.deleteRestaurant(id);

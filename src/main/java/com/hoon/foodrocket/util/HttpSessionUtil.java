@@ -9,6 +9,10 @@ public class HttpSessionUtil {
         session.setAttribute(USER_SESSION_KEY, email);
     }
 
+    public static String getLoginUserEmail(HttpSession session) {
+        return (String) session.getAttribute(USER_SESSION_KEY);
+    }
+
     public static void logout(HttpSession session) {
         session.invalidate();
     }
