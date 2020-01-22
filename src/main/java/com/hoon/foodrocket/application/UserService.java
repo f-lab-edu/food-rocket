@@ -18,22 +18,21 @@ public class UserService {
     UserMapper userMapper;
 
     @Transactional
-    public User getUser(Long id) {
-        User user = userMapper.getUserWithId(id);
+    public User getUserFromId(Long id) {
+        return userMapper.getUserFromId(id);
+    }
 
-        if (user == null) {
-            throw new IllegalStateException("User is not existed");
-        }
-
-        return user;
+    @Transactional
+    public User getUserFromEmail(String email) {
+        return userMapper.getUserFromEmail(email);
     }
 
     @Transactional
     public void registerUser(String email, String name, String password) {
-        User user = userMapper.getUserWithEmail(email);
+        User user = userMapper.getUserFromEmail(email);
 
         if (user != null) {
-            throw new IllegalStateException("User is already registered");
+            throw new IllegalStateException("이미 등록된 유저입니다.");
         }
 
         User builder = User.builder()
@@ -47,14 +46,14 @@ public class UserService {
 
     @Transactional
     public User login(String email, String password) {
-        User user = userMapper.getUserWithEmail(email);
+        User user = userMapper.getUserFromEmail(email);
 
         if (user == null) {
-            throw new IllegalStateException("User is not existed");
+            throw new IllegalStateException("유저 정보가 없습니다.");
         }
 
         if (!user.matchPassword(password)) {
-            throw new IllegalArgumentException("Password is wrong");
+            throw new IllegalArgumentException("비밀번호가 일치하지 않습니다.");
         }
 
         return user;

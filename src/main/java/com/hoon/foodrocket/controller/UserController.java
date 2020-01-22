@@ -18,7 +18,13 @@ public class UserController {
 
     @GetMapping("/users/{id}")
     public User detail(@PathVariable("id") Long id) {
-        return userService.getUser(id);
+        User user = userService.getUserFromId(id);
+
+        if (user == null) {
+            throw new IllegalStateException("유저 정보가 없습니다.");
+        }
+
+        return user;
     }
 
     @PostMapping("/users")
