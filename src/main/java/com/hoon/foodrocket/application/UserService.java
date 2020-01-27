@@ -2,6 +2,7 @@ package com.hoon.foodrocket.application;
 
 import com.hoon.foodrocket.domain.User;
 import com.hoon.foodrocket.mapper.UserMapper;
+import com.hoon.foodrocket.util.SHA256Util;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -38,7 +39,7 @@ public class UserService {
         User builder = User.builder()
                 .email(email)
                 .name(name)
-                .password(password)
+                .password(SHA256Util.encode(password))
                 .build();
 
         userMapper.registerUser(builder);
@@ -52,7 +53,7 @@ public class UserService {
             throw new IllegalStateException("유저 정보가 없습니다.");
         }
 
-        if (!user.matchPassword(password)) {
+        if (!user.matchPassword(SHA256Util.encode(password))) {
             throw new IllegalArgumentException("비밀번호가 일치하지 않습니다.");
         }
 
