@@ -6,14 +6,15 @@
 <mapper namespace="com.hoon.foodrocket.mapper.RestaurantMapper">
 
     <!-- 가게 목록 -->
-    <select id="findAll" resultType="com.hoon.foodrocket.domain.Restaurant">
-        select id, name, address, owner_email ownerEmail
+    <select id="getRestaurantsByAddress" parameterType="String" resultType="com.hoon.foodrocket.domain.Restaurant">
+        select id, name, address, owner_email ownerEmail, information, phone_number phoneNumber, open_time openTime, close_time closeTime
         from restaurant
+        where address like concat('%',#{region},'%')
     </select>
 
     <!-- 가게 조회 -->
     <select id="getRestaurant" parameterType="Long" resultType="com.hoon.foodrocket.domain.Restaurant">
-        select id, name, address, owner_email ownerEmail
+        select id, name, address, owner_email ownerEmail, information, phone_number phoneNumber, open_time openTime, close_time closeTime
         from restaurant
         where id = #{id}
     </select>

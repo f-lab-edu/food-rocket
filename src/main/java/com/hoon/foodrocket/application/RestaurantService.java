@@ -14,10 +14,10 @@ public class RestaurantService {
     private RestaurantMapper restaurantMapper;
 
     @Transactional
-    public List<Restaurant> getRestaurants() {
-        List<Restaurant> restaurants = restaurantMapper.findAll();
+    public List<Restaurant> getRestaurantsByAddress(String region) {
+        List<Restaurant> restaurants = restaurantMapper.getRestaurantsByAddress(region);
 
-        if (restaurants == null) {
+        if (restaurants.size() == 0) {
             throw new IllegalStateException("가게 정보가 없습니다.");
         }
 

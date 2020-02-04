@@ -2,7 +2,6 @@ package com.hoon.foodrocket.controller;
 
 import com.hoon.foodrocket.application.OwnerService;
 import com.hoon.foodrocket.application.RestaurantService;
-import com.hoon.foodrocket.domain.Owner;
 import com.hoon.foodrocket.domain.Restaurant;
 import com.hoon.foodrocket.util.HttpSessionUtil;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,8 +24,8 @@ public class RestaurantController {
     private OwnerService ownerService;
 
     @GetMapping
-    public List<Restaurant> list() {
-        return restaurantService.getRestaurants();
+    public List<Restaurant> list(@RequestParam("region") String region) {
+        return restaurantService.getRestaurantsByAddress(region);
     }
 
     @GetMapping("/{id}")
