@@ -6,36 +6,53 @@
 <mapper namespace="com.hoon.foodrocket.mapper.RestaurantMapper">
 
     <!-- 가게 목록 -->
-    <select id="findAll" resultType="com.hoon.foodrocket.domain.Restaurant">
-        select id, name, address, owner_email ownerEmail
+    <select id="getRestaurantsByAddressAndCategory" resultType="com.hoon.foodrocket.domain.Restaurant">
+        select id, name, address, owner_email ownerEmail, information, phone_number phoneNumber, open_time openTime, close_time closeTime, category
         from restaurant
+        where address like concat('%',#{region},'%') and category = #{category}
     </select>
 
     <!-- 가게 조회 -->
     <select id="getRestaurant" parameterType="Long" resultType="com.hoon.foodrocket.domain.Restaurant">
-        select id, name, address, owner_email ownerEmail
+        select id, name, address, owner_email ownerEmail, information, phone_number phoneNumber, open_time openTime, close_time closeTime, category
         from restaurant
         where id = #{id}
     </select>
 
     <!-- 가게 등록 -->
-    <insert id="addRestaurant" parameterType="com.hoon.foodrocket.domain.Restaurant">
+    <insert id="registerRestaurant" parameterType="com.hoon.foodrocket.domain.Restaurant">
         insert into restaurant (
             name,
             address,
-            owner_email
+            owner_email,
+            information,
+            phone_number,
+            open_time,
+            close_time,
+            category
         )
         values (
             #{name},
             #{address},
-            #{ownerEmail}
+            #{ownerEmail},
+            #{information},
+            #{phoneNumber},
+            #{openTime},
+            #{closeTime},
+            #{category}
         )
     </insert>
 
     <!-- 가게 수정 -->
     <update id="updateRestaurant" parameterType="com.hoon.foodrocket.domain.Restaurant">
         update restaurant
-        set name = #{name}, address = #{address}
+        set name = #{name},
+            address = #{address},
+            information = #{information},
+            phone_number = #{phoneNumber},
+            open_time = #{openTime},
+            close_time = #{closeTime},
+            category = #{category}
         where id = #{id}
     </update>
 
@@ -44,5 +61,12 @@
         delete from restaurant
         where id = #{id}
     </delete>
+
+    <!-- 사장이 등록한 가게 수 -->
+    <select id="getNumberOfRestaurants" parameterType="String" resultType="int">
+        select count(*)
+        from restaurant
+        where owner_email = #{ownerEmail}
+    </select>
 
 </mapper>

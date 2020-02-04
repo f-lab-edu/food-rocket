@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+
+<mapper namespace="com.hoon.foodrocket.mapper.CategoryMapper">
+
+    <!-- 카테고리 조회 -->
+    <select id="getCategories" resultType="com.hoon.foodrocket.domain.Category">
+        select id, name
+        from category
+    </select>
+
+    <!-- 카테고리 등록 -->
+    <insert id="registerCategory" parameterType="com.hoon.foodrocket.domain.Category">
+        insert into category (
+            name
+        )
+        values (
+            #{name}
+        )
+    </insert>
+
+</mapper>

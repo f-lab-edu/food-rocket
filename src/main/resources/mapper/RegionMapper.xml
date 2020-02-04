@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+
+<mapper namespace="com.hoon.foodrocket.mapper.RegionMapper">
+
+    <!-- 지역 조회 -->
+    <select id="getRegions" resultType="com.hoon.foodrocket.domain.Region">
+        select id, name
+        from region
+    </select>
+
+    <!-- 지역 등록 -->
+    <insert id="registerRegion" parameterType="com.hoon.foodrocket.domain.Region">
+        insert into region (
+            name
+        )
+        values (
+            #{name}
+        )
+    </insert>
+
+</mapper>
