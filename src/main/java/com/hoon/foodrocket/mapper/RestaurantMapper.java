@@ -8,7 +8,7 @@ import java.util.List;
 @Mapper
 public interface RestaurantMapper {
     // 가게 목록
-    List<Restaurant> getRestaurantsByAddress(String region);
+    List<Restaurant> getRestaurantsByAddressAndCategory(String region, String category);
 
     // 가게 조회
     Restaurant getRestaurant(Long id);

@@ -24,8 +24,8 @@ public class RestaurantController {
     private OwnerService ownerService;
 
     @GetMapping
-    public List<Restaurant> list(@RequestParam("region") String region) {
-        return restaurantService.getRestaurantsByAddress(region);
+    public List<Restaurant> list(@RequestParam("region") String region, @RequestParam("category") String category) {
+        return restaurantService.getRestaurantsByAddressAndCategory(region, category);
     }
 
     @GetMapping("/{id}")

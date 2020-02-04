@@ -6,15 +6,15 @@
 <mapper namespace="com.hoon.foodrocket.mapper.RestaurantMapper">
 
     <!-- 가게 목록 -->
-    <select id="getRestaurantsByAddress" parameterType="String" resultType="com.hoon.foodrocket.domain.Restaurant">
-        select id, name, address, owner_email ownerEmail, information, phone_number phoneNumber, open_time openTime, close_time closeTime
+    <select id="getRestaurantsByAddressAndCategory" resultType="com.hoon.foodrocket.domain.Restaurant">
+        select id, name, address, owner_email ownerEmail, information, phone_number phoneNumber, open_time openTime, close_time closeTime, category
         from restaurant
-        where address like concat('%',#{region},'%')
+        where address like concat('%',#{region},'%') and category = #{category}
     </select>
 
     <!-- 가게 조회 -->
     <select id="getRestaurant" parameterType="Long" resultType="com.hoon.foodrocket.domain.Restaurant">
-        select id, name, address, owner_email ownerEmail, information, phone_number phoneNumber, open_time openTime, close_time closeTime
+        select id, name, address, owner_email ownerEmail, information, phone_number phoneNumber, open_time openTime, close_time closeTime, category
         from restaurant
         where id = #{id}
     </select>
@@ -28,7 +28,8 @@
             information,
             phone_number,
             open_time,
-            close_time
+            close_time,
+            category
         )
         values (
             #{name},
@@ -37,7 +38,8 @@
             #{information},
             #{phoneNumber},
             #{openTime},
-            #{closeTime}
+            #{closeTime},
+            #{category}
         )
     </insert>
 
@@ -49,7 +51,8 @@
             information = #{information},
             phone_number = #{phoneNumber},
             open_time = #{openTime},
-            close_time = #{closeTime}
+            close_time = #{closeTime},
+            category = #{category}
         where id = #{id}
     </update>
 

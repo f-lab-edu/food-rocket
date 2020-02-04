@@ -14,8 +14,8 @@ public class RestaurantService {
     private RestaurantMapper restaurantMapper;
 
     @Transactional
-    public List<Restaurant> getRestaurantsByAddress(String region) {
-        List<Restaurant> restaurants = restaurantMapper.getRestaurantsByAddress(region);
+    public List<Restaurant> getRestaurantsByAddressAndCategory(String region, String category) {
+        List<Restaurant> restaurants = restaurantMapper.getRestaurantsByAddressAndCategory(region, category);
 
         if (restaurants.size() == 0) {
             throw new IllegalStateException("가게 정보가 없습니다.");

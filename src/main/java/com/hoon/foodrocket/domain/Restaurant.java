@@ -33,6 +33,9 @@ public class Restaurant {
     @NotEmpty
     private String closeTime;    // 마감 시간
 
+    @NotEmpty
+    private String category;    // 카테고리
+
     public boolean isMatchOwnerEmail(String loginUserEmail) {
         if (loginUserEmail == null) {
             return false;
