@@ -25,7 +25,7 @@ public class SHA256Util {
 
             result = sb.toString();
         } catch (NoSuchAlgorithmException e) {
-            log.info("현재 환경에서 사용할 수 없는 알고리즘(SHA-256)입니다.");
+            throw new IllegalStateException("현재 환경에서 사용할 수 없는 알고리즘(SHA-256)입니다.");
         }
 
         return result;
