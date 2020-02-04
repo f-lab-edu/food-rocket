@@ -32,7 +32,7 @@ public class UserService {
         User user = userMapper.getUserFromEmail(email);
 
         if (user != null) {
-            throw new IllegalStateException("이미 등록된 유저입니다.");
+            throw new IllegalStateException("이미 등록된 정보(유저)입니다.");
         }
 
         User builder = User.builder()
@@ -49,10 +49,10 @@ public class UserService {
         User user = userMapper.getUserFromEmail(email);
 
         if (user == null) {
-            throw new IllegalStateException("유저 정보가 없습니다.");
+            throw new IllegalStateException("정보(유저)가 없습니다.");
         }
 
-        if (!user.matchPassword(password)) {
+        if (!user.isMatchPassword(password)) {
             throw new IllegalArgumentException("비밀번호가 일치하지 않습니다.");
         }
 

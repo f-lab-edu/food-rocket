@@ -24,7 +24,7 @@ public class User {
     @NotEmpty
     private String password;
 
-    public boolean matchPassword(String password) {
+    public boolean isMatchPassword(String password) {
         if (password == null) {
             return false;
         }

@@ -36,37 +36,28 @@ public class RestaurantService {
     }
 
     @Transactional
-    public void addRestaurant(String name, String address, String ownerEmail) {
-        Restaurant restaurant = Restaurant.builder()
-                .name(name)
-                .address(address)
-                .ownerEmail(ownerEmail)
-                .build();
-
-        restaurantMapper.addRestaurant(restaurant);
+    public void registerRestaurant(Restaurant resource) {
+        restaurantMapper.registerRestaurant(resource);
     }
 
     @Transactional
-    public void updateRestaurant(Long id, String name, String address, String loginUserEmail) {
+    public void updateRestaurant(Long id, Restaurant resource, String loginOwnerEmail) {
         Restaurant restaurant = restaurantMapper.getRestaurant(id);
 
         if (restaurant == null) {
             throw new IllegalStateException("가게 정보가 없습니다.");
         }
 
-        if (!restaurant.matchOwnerEmail(loginUserEmail)) {
+        if (!restaurant.isMatchOwnerEmail(loginOwnerEmail)) {
             throw new IllegalStateException("본인 가게 정보만 수정할 수 있습니다.");
         }
 
-        Restaurant builder = Restaurant.builder()
-                .id(id)
-                .name(name)
-                .address(address)
-                .build();
+        resource.setId(id);
 
-        restaurantMapper.updateRestaurant(builder);
+        restaurantMapper.updateRestaurant(resource);
     }
 
+    @Transactional
     public void deleteRestaurant(Long id) {
         Restaurant restaurant = restaurantMapper.getRestaurant(id);
 
@@ -75,5 +66,10 @@ public class RestaurantService {
         }
 
         restaurantMapper.deleteRestaurant(id);
+    }
+
+    @Transactional
+    public int getNumberOfRestaurants(String loginOwnerEmail) {
+        return restaurantMapper.getNumberOfRestaurants(loginOwnerEmail);
     }
 }

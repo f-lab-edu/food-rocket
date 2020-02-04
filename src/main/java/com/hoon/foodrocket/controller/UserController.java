@@ -12,22 +12,23 @@ import org.springframework.web.bind.annotation.*;
 import javax.servlet.http.HttpSession;
 
 @RestController
+@RequestMapping("/users")
 public class UserController {
     @Autowired
     private UserService userService;
 
-    @GetMapping("/users/{id}")
+    @GetMapping("/{id}")
     public User detail(@PathVariable("id") Long id) {
         User user = userService.getUserFromId(id);
 
         if (user == null) {
-            throw new IllegalStateException("유저 정보가 없습니다.");
+            throw new IllegalStateException("정보(유저)가 없습니다.");
         }
 
         return user;
     }
 
-    @PostMapping("/users")
+    @PostMapping
     public ResponseEntity<?> create(@RequestBody User resource) {
         String email = resource.getEmail();
         String name = resource.getName();
