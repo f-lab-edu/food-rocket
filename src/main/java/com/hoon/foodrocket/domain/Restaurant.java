@@ -36,11 +36,7 @@ public class Restaurant {
     @NotEmpty
     private String category;    // 카테고리
 
-    public boolean isMatchOwnerEmail(String loginUserEmail) {
-        if (loginUserEmail == null) {
-            return false;
-        }
-
-        return this.ownerEmail.equals(loginUserEmail);
+    public boolean isNotMatchOwnerEmail(String loginUserEmail) {
+        return !this.ownerEmail.equals(loginUserEmail);
     }
 }

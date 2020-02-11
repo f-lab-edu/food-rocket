@@ -6,7 +6,6 @@ import com.hoon.foodrocket.dto.LoginRequestDto;
 import com.hoon.foodrocket.util.HttpSessionUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpSession;
@@ -29,18 +28,18 @@ public class OwnerController {
     }
 
     @PostMapping
-    public ResponseEntity<?> create(@RequestBody Owner resource) {
+    public HttpStatus create(@RequestBody Owner resource) {
         String email = resource.getEmail();
         String name = resource.getName();
         String password = resource.getPassword();
 
         ownerService.registerOwner(email, name, password);
 
-        return ResponseEntity.status(HttpStatus.CREATED).build();
+        return HttpStatus.CREATED;
     }
 
     @PostMapping("/login")
-    public ResponseEntity<?> login(@RequestBody LoginRequestDto resource, HttpSession session) {
+    public HttpStatus login(@RequestBody LoginRequestDto resource, HttpSession session) {
         String email = resource.getEmail();
         String password = resource.getPassword();
 
@@ -48,7 +47,7 @@ public class OwnerController {
 
         HttpSessionUtil.setLoginOwnerEmail(session, owner.getEmail());
 
-        return ResponseEntity.status(HttpStatus.OK).build();
+        return HttpStatus.OK;
     }
 
     @GetMapping("/logout")

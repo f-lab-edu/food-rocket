@@ -12,6 +12,6 @@ public interface OwnerMapper {
     Owner getOwnerFromEmail(String email);
 
     // 회원가입
-    void registerOwner(Owner owner);
+    void insertOwner(Owner owner);
 
 }

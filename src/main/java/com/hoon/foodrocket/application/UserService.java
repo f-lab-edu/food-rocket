@@ -53,7 +53,7 @@ public class UserService {
             throw new IllegalStateException("정보(유저)가 없습니다.");
         }
         
-        if (!user.isMatchPassword(SHA256Util.encode(password))) {
+        if (user.isNotMatchPassword(SHA256Util.encode(password))) {
             throw new IllegalArgumentException("비밀번호가 일치하지 않습니다.");
         }
 

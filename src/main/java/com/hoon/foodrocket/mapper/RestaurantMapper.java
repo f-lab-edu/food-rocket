@@ -14,7 +14,7 @@ public interface RestaurantMapper {
     Restaurant getRestaurant(Long id);
 
     // 가게 등록
-    void registerRestaurant(Restaurant restaurant);
+    void insertRestaurant(Restaurant restaurant);
 
     // 가게 수정
     void updateRestaurant(Restaurant restaurant);

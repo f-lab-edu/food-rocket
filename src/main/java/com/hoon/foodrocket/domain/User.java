@@ -24,11 +24,7 @@ public class User {
     @NotEmpty
     private String password;
 
-    public boolean isMatchPassword(String password) {
-        if (password == null) {
-            return false;
-        }
-
-        return this.password.equals(password);
+    public boolean isNotMatchPassword(String password) {
+        return !this.password.equals(password);
     }
 }

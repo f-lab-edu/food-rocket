@@ -10,6 +10,8 @@ import java.util.List;
 
 @Service
 public class RestaurantService {
+    public static final int MAX_NUMBER_RESTAURANT = 3;
+
     @Autowired
     private RestaurantMapper restaurantMapper;
 
@@ -36,8 +38,14 @@ public class RestaurantService {
     }
 
     @Transactional
-    public void registerRestaurant(Restaurant resource) {
-        restaurantMapper.registerRestaurant(resource);
+    public void registerRestaurant(Restaurant resource, String loginOwnerEmail) {
+        int count = restaurantMapper.getNumberOfRestaurants(loginOwnerEmail);
+        if (count >= MAX_NUMBER_RESTAURANT) {
+            throw new IllegalStateException("가게는 최대 3곳까지만 등록할 수 있습니다.");
+        }
+
+        resource.setOwnerEmail(loginOwnerEmail);
+        restaurantMapper.insertRestaurant(resource);
     }
 
     @Transactional
@@ -48,12 +56,11 @@ public class RestaurantService {
             throw new IllegalStateException("가게 정보가 없습니다.");
         }
 
-        if (!restaurant.isMatchOwnerEmail(loginOwnerEmail)) {
+        if (restaurant.isNotMatchOwnerEmail(loginOwnerEmail)) {
             throw new IllegalStateException("본인 가게 정보만 수정할 수 있습니다.");
         }
 
         resource.setId(id);
-
         restaurantMapper.updateRestaurant(resource);
     }
 

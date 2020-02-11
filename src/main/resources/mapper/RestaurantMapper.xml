@@ -20,7 +20,7 @@
     </select>
 
     <!-- 가게 등록 -->
-    <insert id="registerRestaurant" parameterType="com.hoon.foodrocket.domain.Restaurant">
+    <insert id="insertRestaurant" parameterType="com.hoon.foodrocket.domain.Restaurant">
         insert into restaurant (
             name,
             address,
