@@ -3,6 +3,7 @@ package com.hoon.foodrocket.domain;
 import lombok.*;
 
 import javax.validation.constraints.NotEmpty;
+import java.util.List;
 
 @Builder
 @Getter

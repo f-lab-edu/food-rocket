@@ -6,6 +6,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
 
 @Builder
 @Getter
@@ -17,4 +18,7 @@ public class Region {
 
     @NotEmpty
     private String name;
+
+    @NotNull
+    private Long restaurantId;
 }

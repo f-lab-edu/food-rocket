@@ -11,6 +11,9 @@ import org.springframework.transaction.annotation.Transactional;
  * "Service"
  * 해당 클래스가 Service 클래스임을 명시한다.
  * 비지니스 로직이 들어가는 Service 빈을 등록한다.
+ * Service 어노테이션 내부에 Component 어노테이션이 등록되어 있어 해당 클래스를 빈으로 등록한다.
+ * 빈 등록시 빈의 이름은 따로 명시하지 않을 경우 클래스 이름의 첫 글자를 소문자로 바꾼 이름을 사용하게 된다.
+ * ex) className = TestService, beanName = testService
  */
 @Service
 public class OwnerService {

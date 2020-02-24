@@ -9,7 +9,11 @@
     <select id="getRestaurantsByAddressAndCategory" resultType="com.hoon.foodrocket.domain.Restaurant">
         select id, name, address, owner_email ownerEmail, information, phone_number phoneNumber, open_time openTime, close_time closeTime, category
         from restaurant
-        where address like concat('%',#{region},'%') and category = #{category}
+        where id in (
+            select restaurant_id
+            from region
+            where name = #{region}
+        ) and category = #{category}
     </select>
 
     <!-- 가게 조회 -->

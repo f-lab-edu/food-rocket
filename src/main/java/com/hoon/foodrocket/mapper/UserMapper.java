@@ -14,4 +14,7 @@ public interface UserMapper {
     // 회원가입
     void registerUser(User user);
 
+    // 유저 지역 조회
+    String getRegion(String email);
+
 }

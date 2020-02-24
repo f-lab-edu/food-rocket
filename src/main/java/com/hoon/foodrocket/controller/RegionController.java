@@ -1,10 +1,10 @@
 package com.hoon.foodrocket.controller;
 
+import com.hoon.foodrocket.aop.LoginType;
 import com.hoon.foodrocket.application.RegionService;
 import com.hoon.foodrocket.domain.Region;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -20,10 +20,16 @@ public class RegionController {
         return regionService.getRegions();
     }
 
+    /**
+     * 사장이 본인 가게의 배달 지역을 등록할때 사용합니다.
+     * @param regions
+     * @return
+     */
+    @LoginType(type = "owner")
     @PostMapping
-    public ResponseEntity<?> create(@RequestBody Region resource) {
-        regionService.registerRegion(resource);
+    public HttpStatus create(@RequestBody List<Region> regions) {
+        regionService.registerRegion(regions);
 
-        return ResponseEntity.status(HttpStatus.CREATED).build();
+        return HttpStatus.CREATED;
     }
 }

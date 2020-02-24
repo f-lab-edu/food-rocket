@@ -19,9 +19,8 @@ public class RegionService {
     }
 
     @Transactional
-    public void registerRegion(Region region) {
-        regionMapper.registerRegion(region);
-
+    public void registerRegion(List<Region> regions) {
+        regionMapper.insertRegion(regions);
     }
 
 }

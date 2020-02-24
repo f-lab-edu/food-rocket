@@ -12,13 +12,18 @@
     </select>
 
     <!-- 지역 등록 -->
-    <insert id="registerRegion" parameterType="com.hoon.foodrocket.domain.Region">
+    <insert id="insertRegion" parameterType="java.util.List">
         insert into region (
-            name
+            name,
+            restaurant_id
         )
-        values (
-            #{name}
-        )
+        values
+        <foreach item="item" index="index" collection="list" separator=",">
+            (
+                #{item.name},
+                #{item.restaurantId}
+            )
+        </foreach>
     </insert>
 
 </mapper>

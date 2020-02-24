@@ -9,5 +9,5 @@ import java.util.List;
 public interface RegionMapper {
     List<Region> getRegions();
 
-    void registerRegion(Region region);
+    void insertRegion(List<Region> regions);
 }

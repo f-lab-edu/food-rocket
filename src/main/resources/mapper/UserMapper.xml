@@ -7,14 +7,14 @@
 
     <!-- 유저 조회(id) -->
     <select id="getUserFromId" parameterType="Long" resultType="com.hoon.foodrocket.domain.User">
-        select email, name, password
+        select email, name, password, address
         from user
         where id = #{id}
     </select>
 
     <!-- 유저 조회(email) -->
     <select id="getUserFromEmail" parameterType="String" resultType="com.hoon.foodrocket.domain.User">
-        select email, name, password
+        select email, name, password, address
         from user
         where email = #{email}
     </select>
@@ -23,14 +23,25 @@
     <insert id="registerUser" parameterType="com.hoon.foodrocket.domain.User">
         insert into user (
             email,
+            name,
             password,
-            name
+            address,
+            region
         )
         values (
             #{email},
+            #{name},
             #{password},
-            #{name}
+            #{address},
+            #{region}
         )
     </insert>
+
+    <!-- 유저 지역 조회 -->
+    <select id="getRegion" parameterType="String" resultType="String">
+        select region
+        from user
+        where email = #{email}
+    </select>
 
 </mapper>

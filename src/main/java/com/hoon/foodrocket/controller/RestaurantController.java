@@ -1,6 +1,6 @@
 package com.hoon.foodrocket.controller;
 
-import com.hoon.foodrocket.aop.CheckOwnerLogin;
+import com.hoon.foodrocket.aop.LoginType;
 import com.hoon.foodrocket.application.OwnerService;
 import com.hoon.foodrocket.application.RestaurantService;
 import com.hoon.foodrocket.domain.Restaurant;
@@ -21,9 +21,12 @@ public class RestaurantController {
     @Autowired
     private OwnerService ownerService;
 
+    @LoginType(type = "user")
     @GetMapping
-    public List<Restaurant> list(@RequestParam("region") String region, @RequestParam("category") String category) {
-        return restaurantService.getRestaurantsByAddressAndCategory(region, category);
+    public List<Restaurant> list(@RequestParam("category") String category, HttpSession session) {
+        String loginUserEmail = HttpSessionUtil.getLoginUserEmail(session);
+
+        return restaurantService.getRestaurantsByAddressAndCategory(category, loginUserEmail);
     }
 
     @GetMapping("/{id}")
@@ -31,7 +34,7 @@ public class RestaurantController {
         return restaurantService.getRestaurant(id);
     }
 
-    @CheckOwnerLogin
+    @LoginType(type = "owner")
     @PostMapping
     public HttpStatus create(@RequestBody Restaurant resource, HttpSession session) {
         String loginOwnerEmail = HttpSessionUtil.getLoginOwnerEmail(session);
@@ -41,7 +44,7 @@ public class RestaurantController {
         return HttpStatus.CREATED;
     }
 
-    @CheckOwnerLogin
+    @LoginType(type = "owner")
     @PatchMapping("/{id}")
     public HttpStatus update(@PathVariable("id") Long id, @RequestBody Restaurant resource, HttpSession session) {
         String loginOwnerEmail = HttpSessionUtil.getLoginOwnerEmail(session);
@@ -51,7 +54,7 @@ public class RestaurantController {
         return HttpStatus.OK;
     }
 
-    @CheckOwnerLogin
+    @LoginType(type = "owner")
     @DeleteMapping("/{id}")
     public HttpStatus delete(@PathVariable("id") Long id, HttpSession session) {
         restaurantService.deleteRestaurant(id);
