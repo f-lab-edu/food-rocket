@@ -1,5 +1,6 @@
 package com.hoon.foodrocket.domain;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.*;
 
 import javax.validation.constraints.NotEmpty;
@@ -36,6 +37,10 @@ public class Restaurant {
 
     @NotEmpty
     private String category;    // 카테고리
+
+    @Setter
+    @JsonInclude(JsonInclude.Include.NON_NULL)
+    private List<Menu> menus;   // 메뉴 목록
 
     public boolean isNotMatchOwnerEmail(String loginUserEmail) {
         return !this.ownerEmail.equals(loginUserEmail);

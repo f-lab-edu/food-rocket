@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+
+<mapper namespace="com.hoon.foodrocket.mapper.MenuMapper">
+
+    <!-- 메뉴 조회 -->
+    <select id="getMenus" resultType="com.hoon.foodrocket.domain.Menu">
+        select id, name, price, restaurant_id restaurantId
+        from menu
+        where restaurant_id = #{restaurantId}
+    </select>
+
+    <!-- 메뉴 등록 -->
+    <insert id="insertMenu" parameterType="com.hoon.foodrocket.domain.Menu">
+        insert into menu (
+            name,
+            price,
+            restaurant_id
+        )
+        values (
+            #{name},
+            #{price},
+            #{restaurantId}
+        )
+    </insert>
+
+    <!-- 메뉴 수정 -->
+    <update id="updateMenu" parameterType="com.hoon.foodrocket.domain.Menu">
+        update menu
+        set name = #{name},
+            price = #{price}
+        where id = #{id}
+    </update>
+
+    <!-- 메뉴 삭제 -->
+    <delete id="deleteMenu" parameterType="Long">
+        delete from menu
+        where id = #{id}
+    </delete>
+
+</mapper>
