@@ -28,12 +28,10 @@ public class OwnerService {
     @Autowired
     OwnerMapper ownerMapper;
 
-    @Transactional
     public Owner getOwnerFromId(Long id) {
         return ownerMapper.getOwnerFromId(id);
     }
 
-    @Transactional
     public Owner getOwnerFromEmail(String email) {
         return ownerMapper.getOwnerFromEmail(email);
     }
@@ -55,7 +53,6 @@ public class OwnerService {
         ownerMapper.insertOwner(builder);
     }
 
-    @Transactional
     public Owner login(String email, String password) {
         Owner owner = ownerMapper.getOwnerFromEmail(email);
 

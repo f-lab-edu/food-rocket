@@ -38,7 +38,6 @@ public class RestaurantService {
         return restaurants;
     }
 
-    @Transactional
     public Restaurant getRestaurant(Long id) {
         Restaurant restaurant = restaurantMapper.getRestaurant(id);
 
@@ -87,7 +86,6 @@ public class RestaurantService {
         restaurantMapper.deleteRestaurant(id);
     }
 
-    @Transactional
     public int getNumberOfRestaurants(String loginOwnerEmail) {
         return restaurantMapper.getNumberOfRestaurants(loginOwnerEmail);
     }

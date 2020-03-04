@@ -13,12 +13,10 @@ public class RegionService {
     @Autowired
     private RegionMapper regionMapper;
 
-    @Transactional
     public List<Region> getRegions() {
         return regionMapper.getRegions();
     }
 
-    @Transactional
     public void registerRegion(List<Region> regions) {
         regionMapper.insertRegion(regions);
     }
