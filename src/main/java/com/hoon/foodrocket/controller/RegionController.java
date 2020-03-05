@@ -1,5 +1,6 @@
 package com.hoon.foodrocket.controller;
 
+import com.hoon.foodrocket.aop.Type;
 import com.hoon.foodrocket.aop.LoginType;
 import com.hoon.foodrocket.application.RegionService;
 import com.hoon.foodrocket.domain.Region;
@@ -25,7 +26,7 @@ public class RegionController {
      * @param regions
      * @return
      */
-    @LoginType(type = "owner")
+    @LoginType(type = Type.OWNER)
     @PostMapping
     public HttpStatus create(@RequestBody List<Region> regions) {
         regionService.registerRegion(regions);

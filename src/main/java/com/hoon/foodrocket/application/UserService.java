@@ -18,12 +18,10 @@ public class UserService {
     @Autowired
     UserMapper userMapper;
 
-    @Transactional
     public User getUserFromId(Long id) {
         return userMapper.getUserFromId(id);
     }
 
-    @Transactional
     public User getUserFromEmail(String email) {
         return userMapper.getUserFromEmail(email);
     }
@@ -47,7 +45,6 @@ public class UserService {
         userMapper.registerUser(builder);
     }
 
-    @Transactional
     public User login(String email, String password) {
         User user = userMapper.getUserFromEmail(email);
 

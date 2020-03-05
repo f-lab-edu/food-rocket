@@ -21,7 +21,7 @@ import javax.servlet.http.HttpSession;
  */
 @Aspect
 @Component
-public class LoginCheckAspect {
+public class LoginCheckAspect implements LoginVerificationService {
     /**
      * "Before"
      * 대상 메서드를 실행하기 전에 원하는 작업을 수행한다.
@@ -30,20 +30,29 @@ public class LoginCheckAspect {
     public void loginCheck(LoginType loginType) {
         HttpSession session = ((ServletRequestAttributes) RequestContextHolder.currentRequestAttributes()).getRequest().getSession();
 
-        if (loginType.type().equals("owner")) {
-            String loginOwnerEmail = HttpSessionUtil.getLoginOwnerEmail(session);
-
-            if (loginOwnerEmail == null) {
-                throw new IllegalStateException("로그인(사장)이 필요합니다.");
-            }
-        } else if (loginType.type().equals("user")) {
-            String loginUserEmail = HttpSessionUtil.getLoginUserEmail(session);
-
-            if (loginUserEmail == null) {
-                throw new IllegalStateException("로그인(유저)이 필요합니다.");
-            }
+        if (loginType.type().equals(Type.OWNER)) {
+            ownerLoginCheck(session);
+        } else if (loginType.type().equals(Type.USER)) {
+            userLoginCheck(session);
         }
 
     }
 
+    @Override
+    public void ownerLoginCheck(HttpSession session) {
+        String loginOwnerEmail = HttpSessionUtil.getLoginOwnerEmail(session);
+
+        if (loginOwnerEmail == null) {
+            throw new IllegalStateException("로그인(사장)이 필요합니다.");
+        }
+    }
+
+    @Override
+    public void userLoginCheck(HttpSession session) {
+        String loginUserEmail = HttpSessionUtil.getLoginUserEmail(session);
+
+        if (loginUserEmail == null) {
+            throw new IllegalStateException("로그인(유저)이 필요합니다.");
+        }
+    }
 }
