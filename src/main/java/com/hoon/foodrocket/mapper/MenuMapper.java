@@ -9,9 +9,9 @@ import java.util.List;
 public interface MenuMapper {
     List<Menu> getMenus(Long restaurantId);
 
-    void insertMenu(Menu menu);
+    void insertMenu(List<Menu> addList);
 
-    void updateMenu(Menu menu);
+    void updateMenu(List<Menu> updateList);
 
-    void deleteMenu(Long id);
+    void deleteMenu(List<Menu> deleteList);
 }

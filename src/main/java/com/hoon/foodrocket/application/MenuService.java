@@ -18,13 +18,12 @@ public class MenuService {
     @Autowired
     private RestaurantService restaurantMapper;
 
-    @Transactional
     public List<Menu> getMenus(Long restaurantId) {
         return menuMapper.getMenus(restaurantId);
     }
 
     @Transactional
-    public void updateMenu(Long restaurantId, List<Menu> menus, String loginOwnerEmail) {
+    public void updateMenu(Long restaurantId, List<Menu> addList, List<Menu> updateList, List<Menu> deleteList, String loginOwnerEmail) {
         Restaurant restaurant = restaurantMapper.getRestaurant(restaurantId);
 
         if (restaurant == null) {
@@ -35,17 +34,17 @@ public class MenuService {
             throw new IllegalStateException("본인 가게 메뉴만 수정할 수 있습니다.");
         }
 
-        for (Menu menu : menus) {
-            if (menu.isDestroy()) {
-                menuMapper.deleteMenu(menu.getId());
-            } else {
-                if (menu.getId() != null) {
-                    menuMapper.updateMenu(menu);
-                } else {
-                    menu.setDestroy(false);
-                    menuMapper.insertMenu(menu);
-                }
-            }
+        if (addList.size() != 0) {
+            menuMapper.insertMenu(addList);
+        }
+
+        if (updateList.size() != 0) {
+            menuMapper.updateMenu(updateList);
+        }
+
+        if (deleteList.size() != 0) {
+            menuMapper.deleteMenu(deleteList);
         }
     }
+
 }

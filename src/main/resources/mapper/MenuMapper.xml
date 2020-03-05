@@ -13,31 +13,38 @@
     </select>
 
     <!-- 메뉴 등록 -->
-    <insert id="insertMenu" parameterType="com.hoon.foodrocket.domain.Menu">
+    <insert id="insertMenu" parameterType="java.util.List">
         insert into menu (
             name,
             price,
             restaurant_id
         )
-        values (
-            #{name},
-            #{price},
-            #{restaurantId}
-        )
+        values
+        <foreach item="item" index="index" collection="list" separator=",">
+            (
+            #{item.name},
+            #{item.price},
+            #{item.restaurantId}
+            )
+        </foreach>
     </insert>
 
     <!-- 메뉴 수정 -->
-    <update id="updateMenu" parameterType="com.hoon.foodrocket.domain.Menu">
-        update menu
-        set name = #{name},
-            price = #{price}
-        where id = #{id}
+    <update id="updateMenu" parameterType="java.util.List">
+        <foreach item="item" index="index" collection="list" separator=";">
+            update menu
+            set name = #{item.name},
+                price = #{item.price}
+            where id = #{item.id}
+        </foreach>
     </update>
 
     <!-- 메뉴 삭제 -->
-    <delete id="deleteMenu" parameterType="Long">
-        delete from menu
-        where id = #{id}
+    <delete id="deleteMenu" parameterType="java.util.List">
+        <foreach item="item" index="index" collection="list" separator=";">
+            delete from menu
+            where id = #{item.id}
+        </foreach>
     </delete>
 
 </mapper>
