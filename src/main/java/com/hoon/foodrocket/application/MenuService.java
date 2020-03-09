@@ -23,7 +23,7 @@ public class MenuService {
     }
 
     @Transactional
-    public void updateMenu(Long restaurantId, List<Menu> addList, List<Menu> updateList, List<Menu> deleteList, String loginOwnerEmail) {
+    public void updateMenu(Long restaurantId, List<Menu> changeList, List<Menu> deleteList, String loginOwnerEmail) {
         Restaurant restaurant = restaurantMapper.getRestaurant(restaurantId);
 
         if (restaurant == null) {
@@ -34,12 +34,8 @@ public class MenuService {
             throw new IllegalStateException("본인 가게 메뉴만 수정할 수 있습니다.");
         }
 
-        if (addList.size() != 0) {
-            menuMapper.insertMenu(addList);
-        }
-
-        if (updateList.size() != 0) {
-            menuMapper.updateMenu(updateList);
+        if (changeList.size() != 0) {
+            menuMapper.changeMenu(changeList);
         }
 
         if (deleteList.size() != 0) {

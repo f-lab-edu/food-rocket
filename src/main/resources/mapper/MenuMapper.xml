@@ -12,9 +12,10 @@
         where restaurant_id = #{restaurantId}
     </select>
 
-    <!-- 메뉴 등록 -->
-    <insert id="insertMenu" parameterType="java.util.List">
+    <!-- 메뉴 변경(등록 또는 수정) -->
+    <insert id="changeMenu" parameterType="java.util.List">
         insert into menu (
+            id,
             name,
             price,
             restaurant_id
@@ -22,28 +23,22 @@
         values
         <foreach item="item" index="index" collection="list" separator=",">
             (
+            #{item.id},
             #{item.name},
             #{item.price},
             #{item.restaurantId}
             )
         </foreach>
+        on duplicate key update
+        name=values(name), price=values(price)
     </insert>
-
-    <!-- 메뉴 수정 -->
-    <update id="updateMenu" parameterType="java.util.List">
-        <foreach item="item" index="index" collection="list" separator=";">
-            update menu
-            set name = #{item.name},
-                price = #{item.price}
-            where id = #{item.id}
-        </foreach>
-    </update>
 
     <!-- 메뉴 삭제 -->
     <delete id="deleteMenu" parameterType="java.util.List">
-        <foreach item="item" index="index" collection="list" separator=";">
-            delete from menu
-            where id = #{item.id}
+        delete from menu
+        where id in
+        <foreach item="item" index="index" collection="list" separator="," open="(" close=")">
+            #{item.id}
         </foreach>
     </delete>
 

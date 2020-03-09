@@ -9,9 +9,9 @@ import java.util.List;
 public interface MenuMapper {
     List<Menu> getMenus(Long restaurantId);
 
-    void insertMenu(List<Menu> addList);
+    // 메뉴 변경(등록 또는 수정)
+    void changeMenu(List<Menu> changeList);
 
-    void updateMenu(List<Menu> updateList);
-
+    // 메뉴 삭제
     void deleteMenu(List<Menu> deleteList);
 }
