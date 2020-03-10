@@ -1,6 +1,8 @@
 package com.hoon.foodrocket.application;
 
+import com.hoon.foodrocket.domain.Menu;
 import com.hoon.foodrocket.domain.Restaurant;
+import com.hoon.foodrocket.mapper.MenuMapper;
 import com.hoon.foodrocket.mapper.RestaurantMapper;
 import com.hoon.foodrocket.mapper.UserMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,8 +21,12 @@ public class RestaurantService {
     @Autowired
     private UserMapper userMapper;
 
+    @Autowired
+    private MenuMapper menuMapper;
+
     /**
      * 유저의 지역 정보와 유저가 선택한 음식 카테고리를 통해 가게 목록을 보여준다.
+     *
      * @param category
      * @param loginUserEmail
      * @return
@@ -44,6 +50,9 @@ public class RestaurantService {
         if (restaurant == null) {
             throw new IllegalStateException("가게 정보가 없습니다.");
         }
+
+        List<Menu> menus = menuMapper.getMenus(id);
+        restaurant.setMenus(menus);
 
         return restaurant;
     }
