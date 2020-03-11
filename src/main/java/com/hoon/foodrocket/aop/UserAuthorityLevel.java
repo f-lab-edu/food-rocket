@@ -1,5 +1,5 @@
 package com.hoon.foodrocket.aop;
 
-public enum Type {
+public enum UserAuthorityLevel {
     USER, OWNER
 }

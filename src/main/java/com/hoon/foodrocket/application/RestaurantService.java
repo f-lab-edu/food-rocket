@@ -28,14 +28,15 @@ public class RestaurantService {
      * 유저의 지역 정보와 유저가 선택한 음식 카테고리를 통해 가게 목록을 보여준다.
      *
      * @param category
+     * @param cursorId
      * @param loginUserEmail
      * @return
      */
     @Transactional
-    public List<Restaurant> getRestaurantsByAddressAndCategory(String category, String loginUserEmail) {
+    public List<Restaurant> getRestaurantsByAddressAndCategory(String category, String cursorId, String loginUserEmail) {
         String region = userMapper.getRegion(loginUserEmail);
 
-        List<Restaurant> restaurants = restaurantMapper.getRestaurantsByAddressAndCategory(region, category);
+        List<Restaurant> restaurants = restaurantMapper.getRestaurantsByAddressAndCategory(region, category, cursorId);
 
         if (restaurants.size() == 0) {
             throw new IllegalStateException("가게 정보가 없습니다.");

@@ -1,7 +1,7 @@
 package com.hoon.foodrocket.controller;
 
 import com.hoon.foodrocket.aop.LoginType;
-import com.hoon.foodrocket.aop.Type;
+import com.hoon.foodrocket.aop.UserAuthorityLevel;
 import com.hoon.foodrocket.application.MenuService;
 import com.hoon.foodrocket.domain.Menu;
 import com.hoon.foodrocket.util.HttpSessionUtil;
@@ -25,7 +25,7 @@ public class MenuController {
         return menuService.getMenus(restaurantId);
     }
 
-    @LoginType(type = Type.OWNER)
+    @LoginType(level = UserAuthorityLevel.OWNER)
     @PatchMapping
     public HttpStatus update(@PathVariable("restaurantId") Long restaurantId, @RequestBody Map<String, List<Menu>> menuMap, HttpSession session) {
         String loginOwnerEmail = HttpSessionUtil.getLoginOwnerEmail(session);

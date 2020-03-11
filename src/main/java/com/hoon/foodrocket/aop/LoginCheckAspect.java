@@ -1,19 +1,23 @@
 package com.hoon.foodrocket.aop;
 
-import com.hoon.foodrocket.util.HttpSessionUtil;
 import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Before;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
 import org.springframework.stereotype.Component;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
 
 import javax.servlet.http.HttpSession;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * "Aspect"
  * Aspect 역할을 명시한다.
  * 핵심 기능에서 부가 기능을 분리하기 위한 개념이다.
- *
+ * <p>
  * "Component"
  * 클래스나 인터페이스 단위에 사용할 수 있으며 빈을 등록할때 사용한다.
  * Aspect 클래스가 사용될 Controller 나 Service 는 모두 스프링 빈에 등록되어 관리되고 있습니다.
@@ -21,7 +25,14 @@ import javax.servlet.http.HttpSession;
  */
 @Aspect
 @Component
-public class LoginCheckAspect implements LoginVerificationService {
+public class LoginCheckAspect {
+    Map<UserAuthorityLevel, LoginVerificationInterface> map;
+
+    @Autowired
+    public LoginCheckAspect(Map<UserAuthorityLevel, LoginVerificationInterface> map) {
+        this.map = map;
+    }
+
     /**
      * "Before"
      * 대상 메서드를 실행하기 전에 원하는 작업을 수행한다.
@@ -30,29 +41,21 @@ public class LoginCheckAspect implements LoginVerificationService {
     public void loginCheck(LoginType loginType) {
         HttpSession session = ((ServletRequestAttributes) RequestContextHolder.currentRequestAttributes()).getRequest().getSession();
 
-        if (loginType.type().equals(Type.OWNER)) {
-            ownerLoginCheck(session);
-        } else if (loginType.type().equals(Type.USER)) {
-            userLoginCheck(session);
-        }
+        map.get(loginType.level()).loginVerification(session);
 
+        System.out.println("map: " + map);
     }
+}
 
-    @Override
-    public void ownerLoginCheck(HttpSession session) {
-        String loginOwnerEmail = HttpSessionUtil.getLoginOwnerEmail(session);
+@Configuration
+class CollectionConfig {
+    @Bean
+    public Map<UserAuthorityLevel, LoginVerificationInterface> map() {
+        Map<UserAuthorityLevel, LoginVerificationInterface> map = new HashMap<>();
 
-        if (loginOwnerEmail == null) {
-            throw new IllegalStateException("로그인(사장)이 필요합니다.");
-        }
-    }
+        map.put(UserAuthorityLevel.OWNER, new OwnerLoginVerification());
+        map.put(UserAuthorityLevel.USER, new UserLoginVerification());
 
-    @Override
-    public void userLoginCheck(HttpSession session) {
-        String loginUserEmail = HttpSessionUtil.getLoginUserEmail(session);
-
-        if (loginUserEmail == null) {
-            throw new IllegalStateException("로그인(유저)이 필요합니다.");
-        }
+        return map;
     }
 }

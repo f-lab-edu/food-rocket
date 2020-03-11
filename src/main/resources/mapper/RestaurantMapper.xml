@@ -7,13 +7,15 @@
 
     <!-- 가게 목록 -->
     <select id="getRestaurantsByAddressAndCategory" resultType="com.hoon.foodrocket.domain.Restaurant">
-        select id, name, address, owner_email ownerEmail, information, phone_number phoneNumber, open_time openTime, close_time closeTime, category
-        from restaurant
-        where id in (
-            select restaurant_id
-            from region
-            where name = #{region}
-        ) and category = #{category}
+        select a.id, a.name, a.information, a.open_time openTime, a.close_time closeTime
+        from restaurant a inner join region b
+        on a.id = b.restaurant_id
+        where b.name = #{region} and a.category = #{category}
+        <if test="cursorId != 0">
+            and a.id &lt; #{cursorId}
+        </if>
+        order by a.id desc
+        limit 3
     </select>
 
     <!-- 가게 조회 -->
