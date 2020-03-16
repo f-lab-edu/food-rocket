@@ -3,14 +3,11 @@ package com.hoon.foodrocket.aop;
 import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Before;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.Configuration;
 import org.springframework.stereotype.Component;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
 
 import javax.servlet.http.HttpSession;
-import java.util.HashMap;
 import java.util.Map;
 
 /**
@@ -42,20 +39,5 @@ public class LoginCheckAspect {
         HttpSession session = ((ServletRequestAttributes) RequestContextHolder.currentRequestAttributes()).getRequest().getSession();
 
         map.get(loginType.level()).loginVerification(session);
-
-        System.out.println("map: " + map);
-    }
-}
-
-@Configuration
-class CollectionConfig {
-    @Bean
-    public Map<UserAuthorityLevel, LoginVerificationInterface> map() {
-        Map<UserAuthorityLevel, LoginVerificationInterface> map = new HashMap<>();
-
-        map.put(UserAuthorityLevel.OWNER, new OwnerLoginVerification());
-        map.put(UserAuthorityLevel.USER, new UserLoginVerification());
-
-        return map;
     }
 }
