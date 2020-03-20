@@ -1,7 +1,7 @@
 package com.hoon.foodrocket.controller;
 
-import com.hoon.foodrocket.application.UserService;
-import com.hoon.foodrocket.domain.User;
+import com.hoon.foodrocket.application.OwnerService;
+import com.hoon.foodrocket.domain.Owner;
 import com.hoon.foodrocket.dto.LoginRequestDto;
 import com.hoon.foodrocket.util.HttpSessionUtil;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,25 +11,29 @@ import org.springframework.web.bind.annotation.*;
 import javax.servlet.http.HttpSession;
 
 @RestController
-@RequestMapping("/users")
-public class UserController {
+@RequestMapping("/owners")
+public class OwnerController {
     @Autowired
-    private UserService userService;
+    private OwnerService ownerService;
 
     @GetMapping("/{id}")
-    public User detail(@PathVariable("id") Long id) {
-        User user = userService.getUserFromId(id);
+    public Owner detail(@PathVariable("id") Long id) {
+        Owner owner = ownerService.getOwnerFromId(id);
 
-        if (user == null) {
-            throw new IllegalStateException("정보(유저)가 없습니다.");
+        if (owner == null) {
+            throw new IllegalStateException("정보(사장)가 없습니다.");
         }
 
-        return user;
+        return owner;
     }
 
     @PostMapping
-    public HttpStatus create(@RequestBody User resource) {
-        userService.registerUser(resource);
+    public HttpStatus create(@RequestBody Owner resource) {
+        String email = resource.getEmail();
+        String name = resource.getName();
+        String password = resource.getPassword();
+
+        ownerService.registerOwner(email, name, password);
 
         return HttpStatus.CREATED;
     }
@@ -39,9 +43,9 @@ public class UserController {
         String email = resource.getEmail();
         String password = resource.getPassword();
 
-        User user = userService.login(email, password);
+        Owner owner = ownerService.login(email, password);
 
-        HttpSessionUtil.setLoginUserEmail(session, user.getEmail());
+        HttpSessionUtil.setLoginOwnerEmail(session, owner.getEmail());
 
         return HttpStatus.OK;
     }

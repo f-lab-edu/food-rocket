@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+
+<mapper namespace="com.hoon.foodrocket.mapper.RestaurantMapper">
+
+    <!-- 가게 목록 -->
+    <select id="getRestaurantsByAddressAndCategory" resultType="com.hoon.foodrocket.domain.Restaurant">
+        select a.id, a.name, a.information, a.open_time openTime, a.close_time closeTime
+        from restaurant a inner join region b
+        on a.id = b.restaurant_id
+        where b.name = #{region} and a.category = #{category}
+        <if test="cursorId != 0">
+            and a.id &lt; #{cursorId}
+        </if>
+        order by a.id desc
+        limit 3
+    </select>
+
+    <!-- 가게 조회 -->
+    <select id="getRestaurant" parameterType="Long" resultType="com.hoon.foodrocket.domain.Restaurant">
+        select id, name, address, owner_email ownerEmail, information, phone_number phoneNumber, open_time openTime, close_time closeTime, category
+        from restaurant
+        where id = #{id}
+    </select>
+
+    <!-- 가게 등록 -->
+    <insert id="insertRestaurant" parameterType="com.hoon.foodrocket.domain.Restaurant">
+        insert into restaurant (
+            name,
+            address,
+            owner_email,
+            information,
+            phone_number,
+            open_time,
+            close_time,
+            category
+        )
+        values (
+            #{name},
+            #{address},
+            #{ownerEmail},
+            #{information},
+            #{phoneNumber},
+            #{openTime},
+            #{closeTime},
+            #{category}
+        )
+    </insert>
+
+    <!-- 가게 수정 -->
+    <update id="updateRestaurant" parameterType="com.hoon.foodrocket.domain.Restaurant">
+        update restaurant
+        set name = #{name},
+            address = #{address},
+            information = #{information},
+            phone_number = #{phoneNumber},
+            open_time = #{openTime},
+            close_time = #{closeTime},
+            category = #{category}
+        where id = #{id}
+    </update>
+
+    <!-- 가게 삭제 -->
+    <delete id="deleteRestaurant" parameterType="Long">
+        delete from restaurant
+        where id = #{id}
+    </delete>
+
+    <!-- 사장이 등록한 가게 수 -->
+    <select id="getNumberOfRestaurants" parameterType="String" resultType="int">
+        select count(*)
+        from restaurant
+        where owner_email = #{ownerEmail}
+    </select>
+
+</mapper>

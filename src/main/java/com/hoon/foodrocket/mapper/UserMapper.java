@@ -6,11 +6,15 @@ import org.apache.ibatis.annotations.Mapper;
 @Mapper // Mybatis mapper 표시
 public interface UserMapper {
     // 유저 조회(id)
-    User getUserWithId(Long id);
+    User getUserFromId(Long id);
 
     // 유저 조회(email)
-    User getUserWithEmail(String email);
+    User getUserFromEmail(String email);
 
     // 회원가입
     void registerUser(User user);
+
+    // 유저 지역 조회
+    String getRegion(String email);
+
 }

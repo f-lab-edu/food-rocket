@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+
+<mapper namespace="com.hoon.foodrocket.mapper.OwnerMapper">
+
+    <!-- 사장 조회(id) -->
+    <select id="getOwnerFromId" parameterType="Long" resultType="com.hoon.foodrocket.domain.Owner">
+        select email, name, password
+        from owner
+        where id = #{id}
+    </select>
+
+    <!-- 사장 조회(email) -->
+    <select id="getOwnerFromEmail" parameterType="String" resultType="com.hoon.foodrocket.domain.Owner">
+        select email, name, password
+        from owner
+        where email = #{email}
+    </select>
+
+    <!-- 회원가입 -->
+    <insert id="insertOwner" parameterType="com.hoon.foodrocket.domain.Owner">
+        insert into owner (
+            email,
+            password,
+            name
+        )
+        values (
+            #{email},
+            #{password},
+            #{name}
+        )
+    </insert>
+
+</mapper>
