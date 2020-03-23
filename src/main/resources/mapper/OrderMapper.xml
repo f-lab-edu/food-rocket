@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.hoon.foodrocket.mapper.OrderMapper">
+
+    <!-- 주문 내역 조회 -->
+    <select id="getOrderHistoryList" resultMap="orderHistoryMap">
+        select a.id ordersId, a.restaurant_name restaurantName, a.payment_amount paymentAmount, a.reg_date regDate,
+        b.id orderMenusId, b.name, b.price, b.amount
+        FROM orders a LEFT OUTER JOIN order_menus b
+        ON a.id = b.order_id
+        WHERE a.reg_date > SUBDATE(NOW(), INTERVAL 4 DAY) and user_email = #{loginUserEmail}
+        order by a.reg_date DESC
+    </select>
+
+    <resultMap id="orderHistoryMap" type="com.hoon.foodrocket.domain.OrderHistory">
+        <id property="id" column="ordersId"/>
+        <result property="restaurantName" column="restaurantName"/>
+        <result property="paymentAmount" column="paymentAmount"/>
+        <result property="regDate" column="regDate"/>
+
+        <collection property="orderMenuList" ofType="com.hoon.foodrocket.domain.OrderMenu">
+            <id property="id" column="orderMenusId"/>
+            <result property="name" column="name"/>
+            <result property="price" column="price"/>
+            <result property="amount" column="amount"/>
+        </collection>
+    </resultMap>
+
+    <!-- 주문 등록 -->
+    <insert id="insertOrder" parameterType="com.hoon.foodrocket.domain.Order">
+        insert into orders (
+            user_email,
+            phone_number,
+            delivery_address,
+            restaurant_name,
+            request,
+            payment_amount,
+            payment_method,
+            status
+        )
+        values (
+            #{userEmail},
+            #{phoneNumber},
+            #{deliveryAddress},
+            #{restaurantName},
+            #{request},
+            #{paymentAmount},
+            #{paymentMethod},
+            #{status}
+        )
+        <selectKey keyProperty="id" resultType="long">
+            select last_insert_id() as id
+        </selectKey>
+    </insert>
+
+    <!-- 주문 메뉴 등록 -->
+    <insert id="insertOrderMenus">
+        insert into order_menus (
+            name,
+            price,
+            amount,
+            order_id
+        )
+        values
+        <foreach item="item" index="index" collection="cartItemList" separator=",">
+            (
+                #{item.name},
+                #{item.price},
+                #{item.amount},
+                #{orderId}
+            )
+        </foreach>
+    </insert>
+
+</mapper>

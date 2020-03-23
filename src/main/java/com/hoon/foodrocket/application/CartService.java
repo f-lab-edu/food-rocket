@@ -36,4 +36,8 @@ public class CartService {
 
         listOperations.remove(loginUserEmail, 1, value);
     }
+
+    public void clearItem(String loginUserEmail) {
+        redisTemplate.delete(loginUserEmail);
+    }
 }

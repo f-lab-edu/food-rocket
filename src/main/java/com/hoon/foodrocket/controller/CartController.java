@@ -49,4 +49,14 @@ public class CartController {
 
         return HttpStatus.OK;
     }
+
+    @LoginType(level = UserAuthorityLevel.USER)
+    @DeleteMapping("/clear")
+    public HttpStatus clear(HttpSession session) {
+        String loginUserEmail = HttpSessionUtil.getLoginUserEmail(session);
+
+        cartService.clearItem(loginUserEmail);
+
+        return HttpStatus.OK;
+    }
 }
