@@ -31,7 +31,7 @@ public class CartService {
         Object value = listOperations.index(loginUserEmail, id);
 
         if (value == null) {
-            throw new IllegalStateException("아이템 정보가 없습니다.");
+            throw new IllegalArgumentException("아이템 정보가 없습니다.");
         }
 
         listOperations.remove(loginUserEmail, 1, value);
