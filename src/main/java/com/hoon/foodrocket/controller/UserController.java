@@ -1,6 +1,6 @@
 package com.hoon.foodrocket.controller;
 
-import com.hoon.foodrocket.application.UserService;
+import com.hoon.foodrocket.service.UserService;
 import com.hoon.foodrocket.domain.User;
 import com.hoon.foodrocket.dto.LoginRequestDto;
 import com.hoon.foodrocket.util.HttpSessionUtil;

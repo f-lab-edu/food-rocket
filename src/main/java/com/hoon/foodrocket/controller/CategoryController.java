@@ -1,6 +1,6 @@
 package com.hoon.foodrocket.controller;
 
-import com.hoon.foodrocket.application.CategoryService;
+import com.hoon.foodrocket.service.CategoryService;
 import com.hoon.foodrocket.domain.Category;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;

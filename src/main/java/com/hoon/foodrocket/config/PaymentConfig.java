@@ -1,6 +1,6 @@
 package com.hoon.foodrocket.config;
 
-import com.hoon.foodrocket.application.payment.*;
+import com.hoon.foodrocket.service.payment.*;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 

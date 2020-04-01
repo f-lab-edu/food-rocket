@@ -1,13 +1,14 @@
-package com.hoon.foodrocket.domain;
+package com.hoon.foodrocket.domain.order;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
-import org.apache.ibatis.type.Alias;
+import lombok.NoArgsConstructor;
 
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 
 @Getter
+@NoArgsConstructor
 @AllArgsConstructor
 public class OrderMenu {
     private Long id;

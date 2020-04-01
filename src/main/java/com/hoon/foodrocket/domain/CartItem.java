@@ -9,8 +9,6 @@ import javax.validation.constraints.NotNull;
 @Getter
 @AllArgsConstructor
 public class CartItem {
-    private Long id;
-
     @NotEmpty
     private String name;
 

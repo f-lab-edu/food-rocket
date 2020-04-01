@@ -1,4 +1,4 @@
-package com.hoon.foodrocket.application;
+package com.hoon.foodrocket.service;
 
 import com.hoon.foodrocket.domain.Owner;
 import com.hoon.foodrocket.mapper.OwnerMapper;

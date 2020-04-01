@@ -2,7 +2,7 @@ package com.hoon.foodrocket.controller;
 
 import com.hoon.foodrocket.aop.UserAuthorityLevel;
 import com.hoon.foodrocket.aop.LoginType;
-import com.hoon.foodrocket.application.RegionService;
+import com.hoon.foodrocket.service.RegionService;
 import com.hoon.foodrocket.domain.Region;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;

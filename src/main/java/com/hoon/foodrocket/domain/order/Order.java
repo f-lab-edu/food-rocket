@@ -1,13 +1,17 @@
-package com.hoon.foodrocket.domain;
+package com.hoon.foodrocket.domain.order;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
-import lombok.*;
+import com.hoon.foodrocket.domain.CartItem;
+import com.hoon.foodrocket.service.payment.PaymentMethod;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 import java.util.List;
 
-@Builder
 @Getter
 @NoArgsConstructor
 @AllArgsConstructor
@@ -33,10 +37,7 @@ public class Order {
     private int paymentAmount;  // 결제금액
 
     @NotEmpty
-    private String paymentMethod;   // 결제방식
-
-    @NotEmpty
-    private String status;  // 주문 상태
+    private PaymentMethod paymentMethod;   // 결제방식
 
     @JsonInclude(JsonInclude.Include.NON_DEFAULT)
     private List<CartItem> cartItemList;   // 메뉴 목록

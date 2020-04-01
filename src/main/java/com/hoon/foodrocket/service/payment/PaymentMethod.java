@@ -1,4 +1,4 @@
-package com.hoon.foodrocket.application.payment;
+package com.hoon.foodrocket.service.payment;
 
 public enum PaymentMethod {
     CARD, PHONE, KAKAO
