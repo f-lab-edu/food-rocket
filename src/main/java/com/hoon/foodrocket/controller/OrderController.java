@@ -2,7 +2,11 @@ package com.hoon.foodrocket.controller;
 
 import com.hoon.foodrocket.aop.LoginType;
 import com.hoon.foodrocket.aop.UserAuthorityLevel;
-import com.hoon.foodrocket.domain.order.*;
+import com.hoon.foodrocket.domain.order.CardOrder;
+import com.hoon.foodrocket.domain.order.KakaoOrder;
+import com.hoon.foodrocket.domain.order.OrderDetail;
+import com.hoon.foodrocket.domain.order.OrderHistory;
+import com.hoon.foodrocket.domain.order.PhoneOrder;
 import com.hoon.foodrocket.service.OrderService;
 import com.hoon.foodrocket.service.payment.CardPaymentProcess;
 import com.hoon.foodrocket.service.payment.KakaoPaymentProcess;
@@ -10,7 +14,14 @@ import com.hoon.foodrocket.service.payment.PhonePaymentProcess;
 import com.hoon.foodrocket.util.HttpSessionUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PatchMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
 
 import javax.servlet.http.HttpSession;
 import java.util.List;
@@ -22,7 +33,7 @@ public class OrderController {
     private OrderService orderService;
 
     @LoginType(level = UserAuthorityLevel.USER)
-    @GetMapping("/list")
+    @GetMapping
     public List<OrderHistory> list(@RequestParam("cursorId") Long cursorId, HttpSession session) {
         String loginUserEmail = HttpSessionUtil.getLoginUserEmail(session);
 
@@ -30,15 +41,15 @@ public class OrderController {
     }
 
     @LoginType(level = UserAuthorityLevel.USER)
-    @GetMapping("/detail")
-    public OrderDetail detail(@RequestParam("id") Long id, HttpSession session) {
+    @GetMapping("/{id}")
+    public OrderDetail detail(@PathVariable("id") Long id, HttpSession session) {
         String loginUserEmail = HttpSessionUtil.getLoginUserEmail(session);
 
         return orderService.getOrderDetail(id, loginUserEmail);
     }
 
     @LoginType(level = UserAuthorityLevel.USER)
-    @PostMapping("/card")
+    @PostMapping("/payments/card")
     public HttpStatus orderByCardPayment(@RequestBody CardOrder cardOrder, HttpSession session) {
         String loginUserEmail = HttpSessionUtil.getLoginUserEmail(session);
 
@@ -49,7 +60,7 @@ public class OrderController {
     }
 
     @LoginType(level = UserAuthorityLevel.USER)
-    @PostMapping("/phone")
+    @PostMapping("/payments/phone")
     public HttpStatus orderByPhonePayment(@RequestBody PhoneOrder phoneOrder, HttpSession session) {
         String loginUserEmail = HttpSessionUtil.getLoginUserEmail(session);
 
@@ -60,7 +71,7 @@ public class OrderController {
     }
 
     @LoginType(level = UserAuthorityLevel.USER)
-    @PostMapping("/kakao")
+    @PostMapping("/payments/kakao")
     public HttpStatus orderByKakaoPayment(@RequestBody KakaoOrder kakaoOrder, HttpSession session) {
         String loginUserEmail = HttpSessionUtil.getLoginUserEmail(session);
 
