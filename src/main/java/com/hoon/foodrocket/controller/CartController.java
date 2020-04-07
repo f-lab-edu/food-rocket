@@ -2,7 +2,7 @@ package com.hoon.foodrocket.controller;
 
 import com.hoon.foodrocket.aop.LoginType;
 import com.hoon.foodrocket.aop.UserAuthorityLevel;
-import com.hoon.foodrocket.application.CartService;
+import com.hoon.foodrocket.service.CartService;
 import com.hoon.foodrocket.domain.CartItem;
 import com.hoon.foodrocket.util.HttpSessionUtil;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -46,6 +46,16 @@ public class CartController {
         String loginUserEmail = HttpSessionUtil.getLoginUserEmail(session);
 
         cartService.deleteItem(id, loginUserEmail);
+
+        return HttpStatus.OK;
+    }
+
+    @LoginType(level = UserAuthorityLevel.USER)
+    @DeleteMapping("/clear")
+    public HttpStatus clear(HttpSession session) {
+        String loginUserEmail = HttpSessionUtil.getLoginUserEmail(session);
+
+        cartService.clearItem(loginUserEmail);
 
         return HttpStatus.OK;
     }

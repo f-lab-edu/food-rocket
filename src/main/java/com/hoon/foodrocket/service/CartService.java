@@ -1,4 +1,4 @@
-package com.hoon.foodrocket.application;
+package com.hoon.foodrocket.service;
 
 import com.hoon.foodrocket.domain.CartItem;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,22 +18,34 @@ public class CartService {
     private ListOperations<String, Object> listOperations;
 
     public void registerItem(CartItem cartItem, String loginUserEmail) {
-        listOperations.leftPush(loginUserEmail, cartItem);
+        String cartKey = generateCartKey(loginUserEmail);
+        listOperations.leftPush(cartKey, cartItem);
     }
 
     public List<Object> getList(String loginUserEmail) {
-        Long size = listOperations.size(loginUserEmail);
+        String cartKey = generateCartKey(loginUserEmail);
+        Long size = listOperations.size(cartKey);
 
-        return listOperations.range(loginUserEmail, 0, size);
+        return listOperations.range(cartKey, 0, size);
     }
 
     public void deleteItem(Long id, String loginUserEmail) {
-        Object value = listOperations.index(loginUserEmail, id);
+        String cartKey = generateCartKey(loginUserEmail);
+        Object value = listOperations.index(cartKey, id);
 
         if (value == null) {
             throw new IllegalArgumentException("아이템 정보가 없습니다.");
         }
 
-        listOperations.remove(loginUserEmail, 1, value);
+        listOperations.remove(cartKey, 1, value);
+    }
+
+    public void clearItem(String loginUserEmail) {
+        String cartKey = generateCartKey(loginUserEmail);
+        redisTemplate.delete(cartKey);
+    }
+
+    public String generateCartKey(String email) {
+        return "cart:" + email;
     }
 }
