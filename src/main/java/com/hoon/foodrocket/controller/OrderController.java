@@ -6,6 +6,7 @@ import com.hoon.foodrocket.domain.order.CardOrder;
 import com.hoon.foodrocket.domain.order.KakaoOrder;
 import com.hoon.foodrocket.domain.order.OrderDetail;
 import com.hoon.foodrocket.domain.order.OrderHistory;
+import com.hoon.foodrocket.domain.order.OrderStatus;
 import com.hoon.foodrocket.domain.order.PhoneOrder;
 import com.hoon.foodrocket.service.OrderService;
 import com.hoon.foodrocket.service.payment.CardPaymentProcess;
@@ -93,9 +94,9 @@ public class OrderController {
     @LoginType(level = UserAuthorityLevel.OWNER)
     @PatchMapping("/{id}")
     public HttpStatus update(@PathVariable("id") Long id,
-                             @RequestParam("status") String status,
+                             @RequestParam("orderStatus") OrderStatus orderStatus,
                              HttpSession session) {
-        orderService.updateOrderStatus(status, id);
+        orderService.updateOrderStatus(orderStatus, id);
 
         return HttpStatus.OK;
     }
