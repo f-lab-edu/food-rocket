@@ -4,6 +4,7 @@ import com.hoon.foodrocket.domain.CartItem;
 import com.hoon.foodrocket.domain.order.Order;
 import com.hoon.foodrocket.domain.order.OrderDetail;
 import com.hoon.foodrocket.domain.order.OrderHistory;
+import com.hoon.foodrocket.domain.order.OrderStatus;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
@@ -20,5 +21,5 @@ public interface OrderMapper {
     void insertOrderMenus(@Param("cartItemList") List<CartItem> cartItemList,
                           @Param("orderId") Long orderId);
 
-    void updateOrderStatus(String status, Long id);
+    void updateOrderStatus(OrderStatus orderStatus, Long id);
 }

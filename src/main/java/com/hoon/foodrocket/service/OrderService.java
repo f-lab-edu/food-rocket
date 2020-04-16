@@ -3,6 +3,7 @@ package com.hoon.foodrocket.service;
 import com.hoon.foodrocket.domain.order.Order;
 import com.hoon.foodrocket.domain.order.OrderDetail;
 import com.hoon.foodrocket.domain.order.OrderHistory;
+import com.hoon.foodrocket.domain.order.OrderStatus;
 import com.hoon.foodrocket.domain.payment.Payment;
 import com.hoon.foodrocket.mapper.OrderMapper;
 import com.hoon.foodrocket.service.payment.PaymentProcessInterface;
@@ -58,13 +59,16 @@ public class OrderService {
         boolean result = paymentProcessInterface.paymentProcess(payment);
 
         if (result) {
+            // 결제가 성공하면 주문 상태를 결제 완료로 변경
+            orderMapper.updateOrderStatus(OrderStatus.PAYMENT_COMPLETED, order.getId());
+
             // 장바구니 비우기
             cartService.clearItem(loginUserEmail);
         }
 
     }
 
-    public void updateOrderStatus(String status, Long id) {
-        orderMapper.updateOrderStatus(status, id);
+    public void updateOrderStatus(OrderStatus orderStatus, Long id) {
+        orderMapper.updateOrderStatus(orderStatus, id);
     }
 }
