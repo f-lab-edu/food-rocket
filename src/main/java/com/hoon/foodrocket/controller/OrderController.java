@@ -6,6 +6,7 @@ import com.hoon.foodrocket.domain.order.CardOrder;
 import com.hoon.foodrocket.domain.order.KakaoOrder;
 import com.hoon.foodrocket.domain.order.OrderDetail;
 import com.hoon.foodrocket.domain.order.OrderHistory;
+import com.hoon.foodrocket.domain.order.OrderStatus;
 import com.hoon.foodrocket.domain.order.PhoneOrder;
 import com.hoon.foodrocket.service.OrderService;
 import com.hoon.foodrocket.service.payment.CardPaymentProcess;
@@ -32,6 +33,15 @@ public class OrderController {
     @Autowired
     private OrderService orderService;
 
+    @Autowired
+    private CardPaymentProcess cardPaymentProcess;
+
+    @Autowired
+    private PhonePaymentProcess phonePaymentProcess;
+
+    @Autowired
+    private KakaoPaymentProcess kakaoPaymentProcess;
+
     @LoginType(level = UserAuthorityLevel.USER)
     @GetMapping
     public List<OrderHistory> list(@RequestParam("cursorId") Long cursorId, HttpSession session) {
@@ -54,7 +64,7 @@ public class OrderController {
         String loginUserEmail = HttpSessionUtil.getLoginUserEmail(session);
 
         cardOrder.setUserEmail(loginUserEmail);
-        orderService.registerOrder(cardOrder, cardOrder.getCardPayment(), loginUserEmail, new CardPaymentProcess());
+        orderService.registerOrder(cardOrder, cardOrder.getCardPayment(), loginUserEmail, cardPaymentProcess);
 
         return HttpStatus.CREATED;
     }
@@ -65,7 +75,7 @@ public class OrderController {
         String loginUserEmail = HttpSessionUtil.getLoginUserEmail(session);
 
         phoneOrder.setUserEmail(loginUserEmail);
-        orderService.registerOrder(phoneOrder, phoneOrder.getPhonePayment(), loginUserEmail, new PhonePaymentProcess());
+        orderService.registerOrder(phoneOrder, phoneOrder.getPhonePayment(), loginUserEmail, phonePaymentProcess);
 
         return HttpStatus.CREATED;
     }
@@ -76,7 +86,7 @@ public class OrderController {
         String loginUserEmail = HttpSessionUtil.getLoginUserEmail(session);
 
         kakaoOrder.setUserEmail(loginUserEmail);
-        orderService.registerOrder(kakaoOrder, kakaoOrder.getKakaoPayment(), loginUserEmail, new KakaoPaymentProcess());
+        orderService.registerOrder(kakaoOrder, kakaoOrder.getKakaoPayment(), loginUserEmail, kakaoPaymentProcess);
 
         return HttpStatus.CREATED;
     }
@@ -84,9 +94,9 @@ public class OrderController {
     @LoginType(level = UserAuthorityLevel.OWNER)
     @PatchMapping("/{id}")
     public HttpStatus update(@PathVariable("id") Long id,
-                             @RequestParam("status") String status,
+                             @RequestParam("orderStatus") OrderStatus orderStatus,
                              HttpSession session) {
-        orderService.updateOrderStatus(status, id);
+        orderService.updateOrderStatus(orderStatus, id);
 
         return HttpStatus.OK;
     }
