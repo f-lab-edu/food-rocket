@@ -17,3 +17,6 @@
 |hotfix|출시 버전에서 발생한 버그를 수정하는 브랜치|
 
 브랜치 전략 참고 : [우아한형제들 기술 블로그](https://woowabros.github.io/experience/2017/10/30/baemin-mobile-git-branch-strategy.html)
+
+### 사용 기술 및 환경
+Spring boot, Gradle, Mybatis, Redis, MySQL, Java8   
