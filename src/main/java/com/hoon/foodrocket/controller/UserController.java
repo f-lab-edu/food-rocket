@@ -4,6 +4,7 @@ import com.hoon.foodrocket.service.UserService;
 import com.hoon.foodrocket.domain.User;
 import com.hoon.foodrocket.dto.LoginRequestDto;
 import com.hoon.foodrocket.util.HttpSessionUtil;
+import com.hoon.foodrocket.util.SHA256Util;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
@@ -29,9 +30,20 @@ public class UserController {
 
     @PostMapping
     public HttpStatus create(@RequestBody User resource) {
-        userService.registerUser(resource);
+        User builder = generateUser(resource);
+        userService.registerUser(builder);
 
         return HttpStatus.CREATED;
+    }
+
+    private User generateUser(User resource) {
+        return User.builder()
+                .email(resource.getEmail())
+                .name(resource.getName())
+                .password(SHA256Util.encode(resource.getPassword()))
+                .address(resource.getAddress())
+                .region(resource.getRegion())
+                .build();
     }
 
     @PostMapping("/login")

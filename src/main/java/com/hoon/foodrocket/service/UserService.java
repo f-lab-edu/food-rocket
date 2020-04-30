@@ -34,15 +34,7 @@ public class UserService {
             throw new IllegalStateException("이미 등록된 정보(유저)입니다.");
         }
 
-        User builder = User.builder()
-                .email(resource.getEmail())
-                .name(resource.getName())
-                .password(SHA256Util.encode(resource.getPassword()))
-                .address(resource.getAddress())
-                .region(resource.getRegion())
-                .build();
-
-        userMapper.registerUser(builder);
+        userMapper.registerUser(resource);
     }
 
     public User login(String email, String password) {
