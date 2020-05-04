@@ -1,5 +1,6 @@
 package com.hoon.foodrocket.domain;
 
+import com.hoon.foodrocket.util.SHA256Util;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -27,7 +28,7 @@ public class User {
     /**
      * address 는 유저의 주소를 담는 변수이다.
      * 유저는 주소를 선택하고, 상세주소를 입력한다.
-     *
+     * <p>
      * 시도 시군구 도로명 건물번호본번 -> 경기도 의정부시 부용로 49
      * 상세주소 -> 101동 1004호
      */
@@ -37,7 +38,7 @@ public class User {
     /**
      * region 은 지역을 표시한 정보로 가게의 배달 가능 지역에 포함될 경우 해당 가게를 보여준다.
      * 유저가 입력한 address 중 동에 해당하는 정보를 담고있다.
-     *
+     * <p>
      * 법정동명 -> 금오동
      */
     @NotEmpty
@@ -46,4 +47,9 @@ public class User {
     public boolean isNotMatchPassword(String password) {
         return !this.password.equals(password);
     }
+
+    public void passwordEncryption(){
+        this.password = SHA256Util.encode(password);
+    }
+
 }

@@ -27,14 +27,14 @@ public class UserService {
     }
 
     @Transactional
-    public void registerUser(User resource) {
-        User user = userMapper.getUserFromEmail(resource.getEmail());
+    public void registerUser(User user) {
+        User userFromEmail = userMapper.getUserFromEmail(user.getEmail());
 
-        if (user != null) {
+        if (userFromEmail != null) {
             throw new IllegalStateException("이미 등록된 정보(유저)입니다.");
         }
 
-        userMapper.registerUser(resource);
+        userMapper.registerUser(user);
     }
 
     public User login(String email, String password) {
