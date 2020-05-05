@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonInclude;
 import com.hoon.foodrocket.domain.CartItem;
 import com.hoon.foodrocket.service.payment.PaymentMethod;
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -12,6 +13,7 @@ import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 import java.util.List;
 
+@Builder
 @Getter
 @NoArgsConstructor
 @AllArgsConstructor
