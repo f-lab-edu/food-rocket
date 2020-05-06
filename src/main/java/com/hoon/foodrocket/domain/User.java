@@ -48,7 +48,7 @@ public class User {
         return !this.password.equals(password);
     }
 
-    public void passwordEncryption(){
+    public void passwordEncryption(String password) {
         this.password = SHA256Util.encode(password);
     }
 

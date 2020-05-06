@@ -29,7 +29,9 @@ public class UserController {
 
     @PostMapping
     public HttpStatus create(@RequestBody User user) {
-        user.passwordEncryption();
+        String password = user.getPassword();
+        user.passwordEncryption(password);
+
         userService.registerUser(user);
 
         return HttpStatus.CREATED;
