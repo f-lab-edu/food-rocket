@@ -34,6 +34,9 @@ public class UserService {
             throw new IllegalStateException("이미 등록된 정보(유저)입니다.");
         }
 
+        String encodedPassword = passwordEncryption(user.getPassword());
+        user.setPassword(encodedPassword);
+
         userMapper.registerUser(user);
     }
 
@@ -44,10 +47,14 @@ public class UserService {
             throw new IllegalStateException("정보(유저)가 없습니다.");
         }
         
-        if (user.isNotMatchPassword(SHA256Util.encode(password))) {
+        if (user.isNotMatchPassword(passwordEncryption(password))) {
             throw new IllegalArgumentException("비밀번호가 일치하지 않습니다.");
         }
 
         return user;
+    }
+
+    public String passwordEncryption(String password){
+        return SHA256Util.encode(password);
     }
 }

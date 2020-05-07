@@ -1,10 +1,10 @@
 package com.hoon.foodrocket.domain;
 
-import com.hoon.foodrocket.util.SHA256Util;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 import javax.validation.constraints.NotEmpty;
 
@@ -22,6 +22,7 @@ public class User {
     @NotEmpty
     private String name;
 
+    @Setter
     @NotEmpty
     private String password;
 
@@ -46,10 +47,6 @@ public class User {
 
     public boolean isNotMatchPassword(String password) {
         return !this.password.equals(password);
-    }
-
-    public void passwordEncryption(String password) {
-        this.password = SHA256Util.encode(password);
     }
 
 }
