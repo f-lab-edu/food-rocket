@@ -3,6 +3,7 @@ package com.hoon.foodrocket;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.EnableAspectJAutoProxy;
+import org.springframework.session.data.redis.config.annotation.web.http.EnableRedisHttpSession;
 
 /**
  * "EnableAspectJAutoProxy"
@@ -10,6 +11,7 @@ import org.springframework.context.annotation.EnableAspectJAutoProxy;
  * 스프링의 <aop:aspectj-autoproxy> xml 태그와 유사한 기능을 지원한다.
  */
 @EnableAspectJAutoProxy
+@EnableRedisHttpSession
 @SpringBootApplication
 public class FoodRocketApplication {
 

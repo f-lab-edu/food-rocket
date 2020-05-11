@@ -1,4 +1,4 @@
-package com.hoon.foodrocket.application;
+package com.hoon.foodrocket.service;
 
 import com.hoon.foodrocket.domain.Menu;
 import com.hoon.foodrocket.domain.Restaurant;

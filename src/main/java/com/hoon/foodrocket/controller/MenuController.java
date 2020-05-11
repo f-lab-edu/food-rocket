@@ -2,7 +2,7 @@ package com.hoon.foodrocket.controller;
 
 import com.hoon.foodrocket.aop.LoginType;
 import com.hoon.foodrocket.aop.UserAuthorityLevel;
-import com.hoon.foodrocket.application.MenuService;
+import com.hoon.foodrocket.service.MenuService;
 import com.hoon.foodrocket.domain.Menu;
 import com.hoon.foodrocket.util.HttpSessionUtil;
 import org.springframework.beans.factory.annotation.Autowired;
