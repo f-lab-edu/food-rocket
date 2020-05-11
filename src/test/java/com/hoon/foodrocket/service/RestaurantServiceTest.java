@@ -55,24 +55,6 @@ public class RestaurantServiceTest {
         assertEquals(restaurants.size(), restaurantsByAddressAndCategory.size());
     }
 
-    @Test(expected = IllegalStateException.class)
-    public void 가게목록_실패_가게정보_없음() throws Exception {
-        // given
-        String region = "금오동";
-        String category = "한식";
-        String cursorId = "10";
-
-        List<Restaurant> restaurants = new ArrayList<>();
-
-        given(restaurantMapper.getRestaurantsByAddressAndCategory(any(), any(), any())).willReturn(restaurants);
-
-        // when
-        restaurantService.getRestaurantsByAddressAndCategory(region, category, cursorId);
-
-        // then
-        fail("예외가 발생해야 한다.");
-    }
-
     @Test
     public void 가게상세_성공() throws Exception {
         // given

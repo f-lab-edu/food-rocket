@@ -36,13 +36,7 @@ public class RestaurantService {
     public List<Restaurant> getRestaurantsByAddressAndCategory(String category, String cursorId, String loginUserEmail) {
         String region = userMapper.getRegion(loginUserEmail);
 
-        List<Restaurant> restaurants = restaurantMapper.getRestaurantsByAddressAndCategory(region, category, cursorId);
-
-        if (restaurants.size() == 0) {
-            throw new IllegalStateException("가게 정보가 없습니다.");
-        }
-
-        return restaurants;
+        return restaurantMapper.getRestaurantsByAddressAndCategory(region, category, cursorId);
     }
 
     public Restaurant getRestaurant(Long id) {
