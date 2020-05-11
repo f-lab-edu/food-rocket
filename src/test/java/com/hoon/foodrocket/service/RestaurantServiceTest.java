@@ -14,6 +14,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.BDDMockito.given;
@@ -53,6 +54,22 @@ public class RestaurantServiceTest {
         // then
         assertEquals(restaurants.get(0).getName(), restaurantsByAddressAndCategory.get(0).getName());
         assertEquals(restaurants.size(), restaurantsByAddressAndCategory.size());
+    }
+
+    @Test
+    public void 가게목록_검색결과_없을시_빈목록_반환() throws Exception {
+        // given
+        String region = "금오동";
+        String category = "한식";
+        String cursorId = "10";
+
+        given(restaurantMapper.getRestaurantsByAddressAndCategory(any(), any(), any())).willReturn(new ArrayList<>());
+
+        // when
+        List<Restaurant> list = restaurantService.getRestaurantsByAddressAndCategory(region, category, cursorId);
+
+        // then
+        assertTrue(list.isEmpty());
     }
 
     @Test
