@@ -28,16 +28,16 @@ public class UserController {
     }
 
     @PostMapping
-    public HttpStatus create(@RequestBody User resource) {
-        userService.registerUser(resource);
+    public HttpStatus create(@RequestBody User user) {
+        userService.registerUser(user);
 
         return HttpStatus.CREATED;
     }
 
     @PostMapping("/login")
-    public HttpStatus login(@RequestBody LoginRequestDto resource, HttpSession session) {
-        String email = resource.getEmail();
-        String password = resource.getPassword();
+    public HttpStatus login(@RequestBody LoginRequestDto loginRequestDto, HttpSession session) {
+        String email = loginRequestDto.getEmail();
+        String password = loginRequestDto.getPassword();
 
         User user = userService.login(email, password);
 
