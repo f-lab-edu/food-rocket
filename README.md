@@ -1,6 +1,14 @@
 # food-rocket
-음식 주문 및 배달 서비스를 위한 서버 API 입니다.   
+음식 주문 및 배달 서비스를 위한 API 서버 입니다.   
 클라이언트는 카카오 오븐을 사용해서 화면을 구성하고 각 기능을 정의했습니다.([푸드로켓 화면](https://ovenapp.io/view/wQVIyfiQZ36Ha7ocB2ao9LFWaVcaWcjS/Z6nh4))   
+
+### HTTP 상태 코드
+클라이언트가 보내는 http 요청에 대해 적절한 응답을 보낼 수 있도록 문서를 참고했습니다.   
+참고 문서 : https://developer.mozilla.org/ko/docs/Web/HTTP/Status
+
+### URI 설계
+URI 설계 시 일관적인 명명 규칙을 적용하여 API 직관적으로 유지할 수 있도록 했습니다.   
+참고 문서 : https://docs.microsoft.com/ko-kr/azure/architecture/best-practices/api-design
 
 ### Git 브랜치 전략
 푸드로켓 프로젝트는 Git Flow 전략으로 브랜치를 관리합니다.   
