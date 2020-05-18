@@ -28,3 +28,6 @@ URI 설계 시 일관적인 명명 규칙을 적용하여 API 직관적으로 �
 
 ### 사용 기술 및 환경
 Spring boot, Gradle, Mybatis, Redis, MySQL, Java8   
+
+### ERD
+![erd](https://user-images.githubusercontent.com/25922366/82138646-f8fd8980-985c-11ea-9894-50f22cd3a7aa.png)
